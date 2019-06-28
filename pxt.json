@@ -1,0 +1,26 @@
+{
+    "name": "microIoT",
+    "version": "0.0.1",
+    "description": "Add Wi-Fi connectivity to micro:bit and start your IoT project in 5 minutes!",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*",
+        "radio": "*"
+    },
+    "files": [
+        "README.md",
+        "microIoT.ts",
+        "SSD1306_OLED.cpp",
+        "Adafruit_SSD1306.h",
+        "Adafruit_SSD1306.cpp",
+        "Adafruit_GFX.h",
+        "Adafruit_GFX.cpp",
+        "Adafruit_GFX_Config.h",
+        "glcdfont.h",
+        "_locales/zh-cn/microIoT-strings.json",
+        "_locales/zh-tw/microIoT-strings.json"
+    ],
+    "testFiles": [],
+    "public": true,
+    "installedVersion": "workspace:ec3099df-1b6d-4235-8081-522b7681de40"
+}
