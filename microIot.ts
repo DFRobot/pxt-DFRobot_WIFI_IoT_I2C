@@ -45,6 +45,7 @@ const OBLOQ_BOOL_TYPE_IS_FALSE = false
  */
 //% weight=10 color=#008B00 icon="\uf1eb" block="microIoT"
 namespace microIoT {
+    let IIC_ADDRESS = 0x16
     let Topic0CallBack: Action = null;
     let Topic1CallBack: Action = null;
     let Topic2CallBack: Action = null;
@@ -186,7 +187,7 @@ namespace microIoT {
             buf[0] = 0x15;
         }
         buf[1] = angle;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(0x16, buf);
     }
 
     //% weight=49
@@ -204,13 +205,13 @@ namespace microIoT {
             buf[0] = 0x00;
             buf[1] = direction;
             buf[2] = speed;
-            pins.i2cWriteBuffer(0x10, buf);
+            pins.i2cWriteBuffer(IIC_ADDRESS, buf);
             buf[0] = 0x02;
         }else{
         }
         buf[1] = direction;
         buf[2] = speed;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
     //% weight=48
     //% blockId=microIoT_motorStop block="Motor stop|%motors"
@@ -225,12 +226,12 @@ namespace microIoT {
             buf[0] = 0x00;
             buf[1] = 0;
             buf[2] = 0;
-            pins.i2cWriteBuffer(0x10, buf);
+            pins.i2cWriteBuffer(IIC_ADDRESS, buf);
             buf[0] = 0x02;
         }
         buf[1] = 0;
         buf[2] = 0;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
 
     /*
@@ -241,9 +242,9 @@ namespace microIoT {
         buf[0] = 0x00;
         buf[1] = 0;
         buf[2] = 0;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
         buf[0] = 0x02;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }*/
 
     function microIoT_setPara(cmd: number, para: string): void {
@@ -254,7 +255,7 @@ namespace microIoT {
         buf[3] = para.length
         for (let i = 0; i < para.length; i++)
             buf[i + 4] = para[i].charCodeAt(0)
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
 
     function microIoT_runCommand(cmd: number): void {
@@ -262,7 +263,7 @@ namespace microIoT {
         buf[0] = 0x1E
         buf[1] = RUN_COMMAND
         buf[2] = cmd
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
 
     function microIoT_readStatus(para: number): number {
@@ -270,9 +271,9 @@ namespace microIoT {
         buf[0] = 0x1E
         buf[1] = READ_STATUS
         buf[2] = para
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
         let recbuf = pins.createBuffer(2)
-        recbuf = pins.i2cReadBuffer(0x10, 2, false)
+        recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
         return recbuf[1]
     }
 
@@ -284,7 +285,7 @@ namespace microIoT {
         buf[0] = 0x1E
         buf[1] = READ_STATUS
         buf[2] = para
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
         microIoT_CheckStatus("READ_IP");
         return RECDATA
     }
@@ -297,7 +298,7 @@ namespace microIoT {
         buf[3] = data.length
         for (let i = 0; i < data.length; i++)
             buf[i + 4] = data[i].charCodeAt(0)
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
     function microIoT_CheckStatus(cmd: string): void {
         while (true) {
@@ -551,7 +552,7 @@ namespace microIoT {
         buf[0] = 0x1E;
         buf[1] = RUN_COMMAND;
         buf[2] = SEND_PING;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
         microIoT_CheckStatus("PingOK");
         /*
         while (true) {
@@ -577,7 +578,7 @@ namespace microIoT {
         buf[0] = 0x1E;
         buf[1] = RUN_COMMAND;
         buf[2] = GET_VERSION;
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
         microIoT_CheckStatus("READ_VERSION");
         return RECDATA
     }
@@ -610,9 +611,9 @@ namespace microIoT {
         RECDATA = ""
         let tempbuf = pins.createBuffer(1)
         tempbuf[0] = 0x22
-        pins.i2cWriteBuffer(0x10, tempbuf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, tempbuf);
         let tempRecbuf = pins.createBuffer(len)
-        tempRecbuf = pins.i2cReadBuffer(0x10, len, false)
+        tempRecbuf = pins.i2cReadBuffer(IIC_ADDRESS, len, false)
         for (let i = 0; i < len; i++) {
             RECDATA += String.fromCharCode(tempRecbuf[i])
         }
@@ -625,9 +626,9 @@ namespace microIoT {
         buf[0] = 0x1E
         buf[1] = READ_STATUS
         buf[2] = 0x06
-        pins.i2cWriteBuffer(0x10, buf);
+        pins.i2cWriteBuffer(IIC_ADDRESS, buf);
         let recbuf = pins.createBuffer(2)
-        recbuf = pins.i2cReadBuffer(0x10, 2, false)
+        recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
         tempId = recbuf[0]
         tempStatus = recbuf[1]
         switch (tempId) {
