@@ -199,17 +199,27 @@ namespace microIoT {
         let buf = pins.createBuffer(3);
         if (index == 0) {
             buf[0] = 0x00;
+            if(direction == 0x00){
+                buf[1] = 0x01;
+             }else{
+                buf[1] = 0x00;
+             }
         }else if (index == 1) {
             buf[0] = 0x02;
+            buf[1] = direction;
         } else if (index == 2){
             buf[0] = 0x00;
-            buf[1] = direction;
+            if(direction == 0x00){
+                buf[1] = 0x01;
+            }else{
+                buf[1] = 0x00;
+            }
             buf[2] = speed;
             pins.i2cWriteBuffer(IIC_ADDRESS, buf);
             buf[0] = 0x02;
+            buf[1] = direction;
         }else{
         }
-        buf[1] = direction;
         buf[2] = speed;
         pins.i2cWriteBuffer(IIC_ADDRESS, buf);
     }
