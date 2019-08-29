@@ -10,13 +10,7 @@
     "files": [
         "README.md",
         "microIoT.ts",
-        "SSD1306_OLED.cpp",
-        "Adafruit_SSD1306.h",
-        "Adafruit_SSD1306.cpp",
-        "Adafruit_GFX.h",
-        "Adafruit_GFX.cpp",
-        "Adafruit_GFX_Config.h",
-        "glcdfont.h",
+        
         "_locales/zh-cn/microIoT-strings.json",
         "_locales/zh-tw/microIoT-strings.json"
     ],
