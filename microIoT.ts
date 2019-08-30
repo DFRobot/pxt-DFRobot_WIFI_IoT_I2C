@@ -844,6 +844,7 @@ namespace microIoT {
      */
     //% weight=60
     //% text.defl="DFRobot"
+	//% line.min=0 line.max=7
     //% block="OLED show line %line|text %text"
     export function showUserText(line: number, text: string) {
 
@@ -864,6 +865,7 @@ namespace microIoT {
      * @param n value , eg: 2019
      */
     //% weight=60
+	//% line.min=0 line.max=7
     //% block="OLED show line %line|number %n"
     export function showUserNumber(line: number, n: number) {
 
