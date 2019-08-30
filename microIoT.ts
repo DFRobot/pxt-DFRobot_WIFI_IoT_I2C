@@ -309,6 +309,7 @@ namespace microIoT {
         for (let i = 0; i < data.length; i++)
             buf[i + 4] = data[i].charCodeAt(0)
         pins.i2cWriteBuffer(IIC_ADDRESS, buf);
+
     }
     function microIoT_CheckStatus(cmd: string): void {
         while (true) {
@@ -318,6 +319,20 @@ namespace microIoT {
             }
             basic.pause(50);
         }
+    }
+
+/**
+     * Two parallel stepper motors are executed simultaneously(DegreeDual).
+     * @param SSID to SSID ,eg: "yourSSID"
+     * @param PASSWORD to PASSWORD ,eg: "yourPASSWORD"
+	 */
+	
+    //% weight=100
+    //% blockId=microIoT_wifi block="Micro:IoT setup |Wi-Fi: |name: %SSID| password：%PASSWORD"
+    export function microIoT_WIFI(SSID: string, PASSWORD: string): void {
+        microIoT_setPara(SETWIFI_NAME, SSID)
+        microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
+
     }
     /**
      * Two parallel stepper motors are executed simultaneously(DegreeDual).
@@ -329,14 +344,14 @@ namespace microIoT {
     */
     //% weight=100
     //% blockExternalInputs=1
-    //% blockId=microIoT_MQTT block="Micro:IoT setup mqtt|Wi-Fi: |name: %SSID| password：%PASSWORD| IOT_ID: %IOT_ID| IOT_PWD :%IOT_PWD| IoT service:|(default topic_0) Topic: %IOT_TOPIC| start connection:| server: %SERVERS"
-    export function microIoT_MQTT(SSID: string, PASSWORD: string,
+    //% blockId=microIoT_MQTT block="Micro:IoT setup mqtt|IOT_ID: %IOT_ID| IOT_PWD :%IOT_PWD| IoT service:|(default topic_0) Topic: %IOT_TOPIC| start connection:| server: %SERVERS"
+    export function microIoT_MQTT(/*SSID: string, PASSWORD: string,*/
         IOT_ID: string, IOT_PWD: string,
         IOT_TOPIC: string, servers: SERVERS):
         void {
         microIoT_Mode = MQTT
-        microIoT_setPara(SETWIFI_NAME, SSID)
-        microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
+        //microIoT_setPara(SETWIFI_NAME, SSID)
+        //microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
         if (servers == SERVERS.China) {
             microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_CHINA)
         } else {
@@ -450,6 +465,28 @@ namespace microIoT {
         });
     }
 
+    let microIoT_WEBHOOKS_URL = "maker.ifttt.com"
+    let microIoT_WEBHOOKS_KEY = ""
+    let microIoT_WEBHOOKS_EVENT = ""
+    /**
+         * @param EVENT to EVENT ,eg: "yourEvent"
+         * @param KEY to KEY ,eg: "yourKey"
+        */
+    //% weight=80
+    //% receive.fieldEditor="gridpicker" receive.fieldOptions.columns=3
+    //% send.fieldEditor="gridpicker" send.fieldOptions.columns=3
+    //% blockId=microIoT_http_IFTTT
+    //% block="Webhooks config:|event: %EVENT|key: %KEY|"
+    export function microIoT_http_IFTTT(EVENT: string, KEY: string): void {
+        microIoT_Mode = HTTP
+        microIoT_WEBHOOKS_EVENT = EVENT
+        microIoT_WEBHOOKS_KEY = KEY
+        microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
+        //microIoT_setPara(SETHTTP_PORT, "80")
+        microIoT_runCommand(CONNECT_WIFI)
+        microIoT_CheckStatus("WiFiConnected");
+        Wifi_Status = WIFI_CONNECTED
+    }
 
     /**
      * Two parallel stepper motors are executed simultaneously(DegreeDual).
@@ -458,21 +495,22 @@ namespace microIoT {
      * @param IP to IP ,eg: "0.0.0.0"
      * @param PORT to PORT ,eg: 80
     */
+	/*
     //% weight=80
     //% blockId=microIoT_http_setup
-    //% block="Micro:IoT setup http | Wi-Fi: | name: %SSID| password: %PASSWORD| http config: | ip: %IP| port: %PORT| start connection"
+    //% block="Micro:IoT setup http | http config: | ip: %IP| port: %PORT| start connection"
     export function microIoT_http_setup(SSID: string, PASSWORD: string,
         IP: string, PORT: number):
         void {
         microIoT_Mode = HTTP
-        microIoT_setPara(SETWIFI_NAME, SSID)
-        microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
+        //microIoT_setPara(SETWIFI_NAME, SSID)
+        //microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
         microIoT_setPara(SETHTTP_IP, IP)
         microIoT_setPara(SETHTTP_PORT, PORT.toString())
         microIoT_runCommand(CONNECT_WIFI)
         microIoT_CheckStatus("WiFiConnected");
         Wifi_Status = WIFI_CONNECTED
-    }
+    }*/
 
     function microIoT_http_wait_request(time: number): string {
         if (time < 100) {
@@ -497,6 +535,7 @@ namespace microIoT {
      * The HTTP get request.url(string):URL:time(ms): private long maxWait
      * @param time set timeout, eg: 10000
     */
+	/*
     //% weight=79
     //% blockId=MicroitIoT_http_get
     //% block="http(get) | url %url| timeout(ms) %time"
@@ -505,7 +544,7 @@ namespace microIoT {
         microIoT_ParaRunCommand(GET_URL, url)
         return microIoT_http_wait_request(time);
     }
-
+*/
     /**
      * The HTTP post request.url(string): URL; content(string):content
      * time(ms): private long maxWait
@@ -513,10 +552,11 @@ namespace microIoT {
     */
     //% weight=78
     //% blockId=microIoT_http_post
-    //% block="http(post) | url %url| content %content| timeout(ms) %time"
-    export function microIoT_http_post(url: string, content: string, time: number): string {
+    //% block="IFTTT(post) | value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
+    export function microIoT_http_post(value1: string, value2: string, value3: string, time: number): string {
+        //microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
         let tempStr = ""
-        tempStr = url + "," + content;
+        tempStr = "trigger/" + microIoT_WEBHOOKS_EVENT + "/with/key/" + microIoT_WEBHOOKS_KEY + ",{\"value1\":\"" + value1 + "\",\"value2\":\"" + value2 + "\",\"value3\":\"" + value3 + "\" }" + "\r"
         microIoT_ParaRunCommand(POST_URL, tempStr)
         return microIoT_http_wait_request(time);
     }
@@ -526,6 +566,7 @@ namespace microIoT {
      * url(string): URL; content(string):content; time(ms): private long maxWait
      * @param time set timeout, eg: 10000
     */
+	/*
     //% weight=77
     //% blockId=microIoT_http_put
     //% block="http(put) | url %url| content %content| timeout(ms) %time"
@@ -535,6 +576,7 @@ namespace microIoT {
         microIoT_ParaRunCommand(PUT_URL, tempStr)
         return microIoT_http_wait_request(time);
     }
+	*/
 
     /**
      * Get IP address.
@@ -765,7 +807,7 @@ namespace microIoT {
         cmd(0xAF);  // Set display On
         clear();
     }
-    //% weight=90
+    //% weight=59
     //% block="clear"
     export function clear() {
         cmd(DISPLAY_OFF);   //display off
@@ -800,11 +842,11 @@ namespace microIoT {
     /**
      * OLED 12864 display string
      */
-    //% weight=90
+    //% weight=60
     //% text.defl="DFRobot"
     //% block="OLED show line %line|text %text"
     export function showUserText(line: number, text: string) {
-        
+
         if (i == 1) {
             initDisplay();
             i += 1;
@@ -821,15 +863,15 @@ namespace microIoT {
      * @param line line num (8 pixels per line), eg: 0
      * @param n value , eg: 2019
      */
-    //% weight=90
+    //% weight=60
     //% block="OLED show line %line|number %n"
     export function showUserNumber(line: number, n: number) {
-        
-        if (j == 1&&i==1) {
+
+        if (j == 1 && i == 1) {
             initDisplay();
             j += 1;
         }
-        
+
         microIoT.showUserText(line, "" + n)
     }
 
