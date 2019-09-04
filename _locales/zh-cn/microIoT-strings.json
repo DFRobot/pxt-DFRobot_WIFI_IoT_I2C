@@ -14,7 +14,7 @@
     "microIoT.microIoT_MQTT_Event|block": "在 %top |收到消息时运行",
     "microIoT.microIoT_add_topic|block": "新增订阅 %top |: %IOT_TOPIC",
     "microIoT.microIoT_WIFI|block": "WIFI 配置 | Wi-Fi:| 名称: %SSID| 密码:%PASSWORD| 启动连接",
-    "microIoT.microIoT_http_IFTTT|block": "IFTTT设置| event: %EVENT| key:%KEY| ",
+    "microIoT.microIoT_http_IFTTT|block": "IFTTT设置| even: %EVENT| key:%KEY| ",
     "microIoT.microIoT_http_get|block": "http(get) | url %url| 超时(毫秒) %time",
     "microIoT.microIoT_http_put|block": "http(put) | url %url| content %content| 超时(毫秒) %time",
     "microIoT.microIoT_send_ping|block": "发送PING",
@@ -25,6 +25,7 @@
     "microIoT.showUserNumber|block": "OLED 显示屏 第%line行|显示数字%n",
     "microIoT.showUserText|block": "OLED 显示屏 第%line行|显示文本%text",
     "microIoT.clear|block": "OLED清屏",
-    "microIoT.drawUserLine|block": "OLED画线起点 x1:%x1|y1:%y1| 终点x2:%x2|y2:%y2"
+    "microIoT.drawUserLine|block": "OLED画线起点 x1:%x1|y1:%y1| 终点x2:%x2|y2:%y2",
+    "microIoT.initDisplay|block":"初始化OLED显示屏"
 
 }

@@ -132,6 +132,7 @@ namespace microIoT {
     let HTTP_PORT = ""
     let microIoT_IP = "0.0.0.0"
 
+
     export enum aMotors {
         //% blockId="M1" block="M1"
         M1 = 0,
@@ -321,12 +322,12 @@ namespace microIoT {
         }
     }
 
-/**
-     * Two parallel stepper motors are executed simultaneously(DegreeDual).
-     * @param SSID to SSID ,eg: "yourSSID"
-     * @param PASSWORD to PASSWORD ,eg: "yourPASSWORD"
-	 */
-	
+    /**
+         * Two parallel stepper motors are executed simultaneously(DegreeDual).
+         * @param SSID to SSID ,eg: "yourSSID"
+         * @param PASSWORD to PASSWORD ,eg: "yourPASSWORD"
+         */
+
     //% weight=100
     //% blockId=microIoT_wifi block="Micro:IoT setup |Wi-Fi: |name: %SSID| password：%PASSWORD"
     export function microIoT_WIFI(SSID: string, PASSWORD: string): void {
@@ -407,6 +408,7 @@ namespace microIoT {
     //% blockId=microIoT_SendMessage block="Send Message %string| to |%TOPIC"
     export function microIoT_SendMessage(Mess: string, Topic: TOPIC): void {
         let topic = 0
+
         switch (Topic) {
             case TOPIC.topic_0:
                 topic = PUB_TOPIC0
@@ -478,7 +480,7 @@ namespace microIoT {
     //% blockId=microIoT_http_IFTTT
     //% block="Webhooks config:|event: %EVENT|key: %KEY|"
     export function microIoT_http_IFTTT(EVENT: string, KEY: string): void {
-        microIoT_Mode = HTTP
+        //microIoT_Mode = HTTP
         microIoT_WEBHOOKS_EVENT = EVENT
         microIoT_WEBHOOKS_KEY = KEY
         microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
@@ -779,8 +781,10 @@ namespace microIoT {
     /**
  * OLED
  */
-    let i = 1;
-    let j = 1;
+    let i_i = 1;
+    let j_j = 1;
+    //% weight=59
+    //% block="initDisplay"
     export function initDisplay(): void {
         cmd(0xAE);  // Set display OFF
         cmd(0xD5);  // Set Display Clock Divide Ratio / OSC Frequency 0xD4
@@ -827,9 +831,6 @@ namespace microIoT {
     function setTextXY(A: number) {
         let r = A;
         let c = 0;
-        if (A < 0) { r = 0 }
-        if (A > 7) { r = 7 }
-
         cmd(0xB0 + r);            //set page address
         cmd(0x00 + (8 * c & 0x0F));  //set column lower address
         cmd(0x10 + ((8 * c >> 4) & 0x0F));   //set column higher address
@@ -844,14 +845,10 @@ namespace microIoT {
      */
     //% weight=60
     //% text.defl="DFRobot"
-	//% line.min=0 line.max=7
+    //% line.min=0 line.max=7
     //% block="OLED show line %line|text %text"
     export function showUserText(line: number, text: string) {
-
-        if (i == 1) {
-            initDisplay();
-            i += 1;
-        }
+       
         setTextXY(line);
 
         for (let c of text) {
@@ -860,20 +857,17 @@ namespace microIoT {
 
     }
 	/**
-     * OLED 12864 shows the number
-     * @param line line num (8 pixels per line), eg: 0
+     * * @param line line num (8 pixels per line), eg: 0
      * @param n value , eg: 2019
+     * OLED 12864 shows the number
      */
     //% weight=60
-	//% line.min=0 line.max=7
+    //% line.min=0 line.max=7
     //% block="OLED show line %line|number %n"
+
     export function showUserNumber(line: number, n: number) {
 
-        if (j == 1 && i == 1) {
-            initDisplay();
-            j += 1;
-        }
-
+        
         microIoT.showUserText(line, "" + n)
     }
 
@@ -886,7 +880,7 @@ namespace microIoT {
 
 
     function cmd(c: number) {
-        pins.i2cWriteNumber(0x3c, c, NumberFormat.UInt16BE);
+        pins.i2cWriteNumber(0x3C, c, NumberFormat.UInt16BE);
     }
 
 
@@ -895,41 +889,11 @@ namespace microIoT {
         if (n < 0) { n = 0 }
         if (n > 255) { n = 255 }
 
-        pins.i2cWriteNumber(0x3c, 0x4000 + b, NumberFormat.UInt16BE);
+        pins.i2cWriteNumber(0x3C, 0x4000 + b, NumberFormat.UInt16BE);
     }
 
-
-
-    let flipped = false;
     const DISPLAY_OFF = 0xAE;
     const DISPLAY_ON = 0xAF;
-    const SET_DISPLAY_CLOCK_DIV = 0xD5;
-    const SET_MULTIPLEX = 0xA8;
-    const SET_DISPLAY_OFFSET = 0xD3;
-    const SET_START_LINE = 0x00;
-    const CHARGE_PUMP = 0x8D;
-    const EXTERNAL_VCC = false;
-    const MEMORY_MODE = 0x20;
-    const SEG_REMAP = 0xA1; // using 0xA0 will flip screen
-    const COM_SCAN_DEC = 0xC8;
-    const COM_SCAN_INC = 0xC0;
-    const SET_COM_PINS = 0xDA;
-    const SET_CONTRAST = 0x81;
-    const SET_PRECHARGE = 0xd9;
-    const SET_VCOM_DETECT = 0xDB;
-    const DISPLAY_ALL_ON_RESUME = 0xA4;
-    const NORMAL_DISPLAY = 0xA6;
-    const COLUMN_ADDR = 0x21;
-    const PAGE_ADDR = 0x22;
-    const INVERT_DISPLAY = 0xA7;
-    const ACTIVATE_SCROLL = 0x2F;
-    const DEACTIVATE_SCROLL = 0x2E;
-    const SET_VERTICAL_SCROLL_AREA = 0xA3;
-    const RIGHT_HORIZONTAL_SCROLL = 0x26;
-    const LEFT_HORIZONTAL_SCROLL = 0x27;
-    const VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL = 0x29;
-    const VERTICAL_AND_LEFT_HORIZONTAL_SCROLL = 0x2A;
-
     const basicFont: string[] = [
         "\x00\x00\x00\x00\x00\x00\x00\x00", // " "
         "\x00\x00\x5F\x00\x00\x00\x00\x00", // "!"
@@ -1022,21 +986,21 @@ namespace microIoT {
         "\x00\x44\x28\x10\x28\x44\x00\x00", // "x"
         "\x00\x1C\xA0\xA0\x7C\x00\x00\x00", // "y"
         "\x00\x44\x64\x54\x4C\x44\x00\x00", // "z"
-        "\x00\x08\x36\x41\x00\x00\x00\x00", // "{"
-        "\x00\x00\x7F\x00\x00\x00\x00\x00", // "|"
-        "\x00\x41\x36\x08\x00\x00\x00\x00", // "}"
-        "\x00\x02\x01\x01\x02\x01\x00\x00"  // "~"
+        //"\x00\x08\x36\x41\x00\x00\x00\x00", // "{"
+        //"\x00\x00\x7F\x00\x00\x00\x00\x00", // "|"
+        //"\x00\x41\x36\x08\x00\x00\x00\x00", // "}"
+        //"\x00\x02\x01\x01\x02\x01\x00\x00"  // "~"
     ];
 
-
-    //% blockId=oled_draw_Line
-    //% block="OLED draw line start x1%x1|y1%y1| end x2%x2|y2%y2"
-    //% icon="\uf1ec" 
-    //% shim=OLED::drawLine
-    //% subcategory="OLED"
-    export function drawUserLine(x1: number, y1: number, x2: number, y2: number): void {
-        return;
-    }
-
-
+    /*
+        //% blockId=oled_draw_Line
+        //% block="OLED draw line start x1%x1|y1%y1| end x2%x2|y2%y2"
+        //% icon="\uf1ec" 
+        //% shim=OLED::drawLine
+        //% subcategory="OLED"
+        export function drawUserLine(x1: number, y1: number, x2: number, y2: number): void {
+            return;
+        }
+    
+    */
 } 
