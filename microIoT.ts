@@ -814,7 +814,7 @@ namespace microIoT {
     //% weight=59
     //% block="clear"
     export function clear() {
-        cmd(DISPLAY_OFF);   //display off
+        //cmd(DISPLAY_OFF);   //display off
         for (let j = 0; j < 8; j++) {
             setTextXY(j);
             {
@@ -824,7 +824,7 @@ namespace microIoT {
                 }
             }
         }
-        cmd(DISPLAY_ON);    //display on
+        //cmd(DISPLAY_ON);    //display on
         setTextXY(0);
     }
 
