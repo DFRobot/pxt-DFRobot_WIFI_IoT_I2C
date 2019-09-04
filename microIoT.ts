@@ -480,7 +480,7 @@ namespace microIoT {
     //% blockId=microIoT_http_IFTTT
     //% block="Webhooks config:|event: %EVENT|key: %KEY|"
     export function microIoT_http_IFTTT(EVENT: string, KEY: string): void {
-        //microIoT_Mode = HTTP
+        microIoT_Mode = HTTP
         microIoT_WEBHOOKS_EVENT = EVENT
         microIoT_WEBHOOKS_KEY = KEY
         microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
