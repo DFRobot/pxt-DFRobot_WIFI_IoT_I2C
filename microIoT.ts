@@ -572,7 +572,7 @@ namespace microIoT {
                 microIoTStatus = "";
                 return RECDATA
             } else if (microIoTStatus == "HTTP_REQUESTFailed") {
-                //microIoTStatus = "";
+                microIoTStatus = "";
                 return "requestFailed"
             }
             _timeout += 1
