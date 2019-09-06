@@ -1,7 +1,7 @@
 {
-    "name": "microIoT",
-    "version": "0.0.1",
-    "description": "Add Wi-Fi connectivity to micro:bit and start your IoT project in 5 minutes!",
+    "name": "OLEDV1",
+    "version": "1.2.6",
+    "description": "",
     "license": "MIT",
     "dependencies": {
         "core": "*",
@@ -9,12 +9,10 @@
     },
     "files": [
         "README.md",
-        "microIoT.ts",
-        
-        "_locales/zh-cn/microIoT-strings.json",
-        "_locales/zh-tw/microIoT-strings.json"
+        "OLEDV1.ts",
+        "_locales/zh/OLEDV1-strings.json"
     ],
     "testFiles": [],
     "public": true,
-    "installedVersion": "workspace:ec3099df-1b6d-4235-8081-522b7681de40"
+    "installedVersion": "workspace:0c016a89-1dd0-4c72-e8c8-0cb527b5d362" 
 }
