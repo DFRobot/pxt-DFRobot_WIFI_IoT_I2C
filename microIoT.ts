@@ -40,6 +40,52 @@ const OBLOQ_STR_TYPE_IS_NONE = ""
 const OBLOQ_BOOL_TYPE_IS_TRUE = true
 const OBLOQ_BOOL_TYPE_IS_FALSE = false
 
+
+//天气
+//天气
+enum LOCATION {
+    //%block="Sentosa"
+    Sentosa = 0,
+    //%block="Pulau Ubin"
+    Pulau_Ubin = 1,
+    //%block="Pulau Tekong"
+    Pulau_Tekong = 2,
+    //%block="Jurong Island"
+    Jurong_Island = 3,
+    //%block="Tuas"
+    Tuas = 4,
+    //%block="Changi"
+    Changi = 5,
+    //%block="City"
+    City = 6,
+    //%block="Woodlands"
+    Woodlands = 7,
+    //%block="Lim Chu Kang"
+    Lim_Chu_Kang = 8,
+    //%block="Central Water Catchment"
+    Central_Water_Catchment = 9,
+    //%block="Bukit Timah"
+    Bukit_Timah = 10,
+    //%block="Punggol"
+    Punggol = 11,
+    //%block="Tanglin"
+    Tanglin = 12,
+    //%block="Novena"
+    Novena = 13,
+    //%block="Marine Parade"
+    Marine_Parade = 14,
+    //%block="Tampines"
+    Tampines = 15,
+    //%block="Jurong East"
+    Jurong_East = 16,
+    //%block="Paya Lebar"
+    Paya_Lebar = 17,
+    //%block="Queenstown"
+    Queenstown = 18,
+    //%block="Kallang"
+    Kallang = 19
+}
+
 /**
  *Obloq implementation method.
  */
@@ -53,8 +99,6 @@ namespace microIoT {
     let Topic4CallBack: Action = null;
     let Wifi_Status = 0x00
     let microIoT_Mode = 0x00
-    let MQTT = 0x00
-    let HTTP = 0x01
 
     let READ_STATUS = 0x00
     let SET_PARA = 0x01
@@ -131,7 +175,7 @@ namespace microIoT {
     let HTTP_IP = ""
     let HTTP_PORT = ""
     let microIoT_IP = "0.0.0.0"
-
+    let G_city = 0;
 
     export enum aMotors {
         //% blockId="M1" block="M1"
@@ -333,7 +377,9 @@ namespace microIoT {
     export function microIoT_WIFI(SSID: string, PASSWORD: string): void {
         microIoT_setPara(SETWIFI_NAME, SSID)
         microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
-
+        microIoT_runCommand(CONNECT_WIFI)
+        microIoT_CheckStatus("WiFiConnected");
+        Wifi_Status = WIFI_CONNECTED
     }
     /**
      * Two parallel stepper motors are executed simultaneously(DegreeDual).
@@ -350,7 +396,7 @@ namespace microIoT {
         IOT_ID: string, IOT_PWD: string,
         IOT_TOPIC: string, servers: SERVERS):
         void {
-        microIoT_Mode = MQTT
+        //microIoT_Mode = MQTT
         //microIoT_setPara(SETWIFI_NAME, SSID)
         //microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
         if (servers == SERVERS.China) {
@@ -361,14 +407,14 @@ namespace microIoT {
         microIoT_setPara(SETMQTT_PORT, "1883")
         microIoT_setPara(SETMQTT_ID, IOT_ID)
         microIoT_setPara(SETMQTT_PASSWORLD, IOT_PWD)
-        microIoT_runCommand(CONNECT_WIFI)
-        microIoT_CheckStatus("WiFiConnected");
+        //microIoT_runCommand(CONNECT_WIFI)
+        //microIoT_CheckStatus("WiFiConnected");
         /*
         while (microIoT_readStatus(READ_WIFISTATUS) != WIFI_CONNECTED) {
             basic.pause(200)
         }*/
         serial.writeString("wifi conneced ok\r\n");
-        Wifi_Status = WIFI_CONNECTED
+        //Wifi_Status = WIFI_CONNECTED
         microIoT_runCommand(CONNECT_MQTT);
         microIoT_CheckStatus("MQTTConnected");
         serial.writeString("mqtt connected\r\n");
@@ -480,14 +526,14 @@ namespace microIoT {
     //% blockId=microIoT_http_IFTTT
     //% block="Webhooks config:|event: %EVENT|key: %KEY|"
     export function microIoT_http_IFTTT(EVENT: string, KEY: string): void {
-        microIoT_Mode = HTTP
+        //microIoT_Mode = HTTP
         microIoT_WEBHOOKS_EVENT = EVENT
         microIoT_WEBHOOKS_KEY = KEY
-        microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
+        //microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
         //microIoT_setPara(SETHTTP_PORT, "80")
-        microIoT_runCommand(CONNECT_WIFI)
-        microIoT_CheckStatus("WiFiConnected");
-        Wifi_Status = WIFI_CONNECTED
+        //microIoT_runCommand(CONNECT_WIFI)
+        //microIoT_CheckStatus("WiFiConnected");
+        //Wifi_Status = WIFI_CONNECTED
     }
 
     /**
@@ -523,8 +569,10 @@ namespace microIoT {
         while (true) {
             basic.pause(100)
             if (microIoTStatus == "HTTP_REQUEST") {
+                microIoTStatus = "";
                 return RECDATA
             } else if (microIoTStatus == "HTTP_REQUESTFailed") {
+                //microIoTStatus = "";
                 return "requestFailed"
             }
             _timeout += 1
@@ -556,7 +604,7 @@ namespace microIoT {
     //% blockId=microIoT_http_post
     //% block="IFTTT(post) | value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
     export function microIoT_http_post(value1: string, value2: string, value3: string, time: number): string {
-        //microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
+        microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
         let tempStr = ""
         tempStr = "trigger/" + microIoT_WEBHOOKS_EVENT + "/with/key/" + microIoT_WEBHOOKS_KEY + ",{\"value1\":\"" + value1 + "\",\"value2\":\"" + value2 + "\",\"value3\":\"" + value3 + "\" }" + "\r"
         microIoT_ParaRunCommand(POST_URL, tempStr)
@@ -783,7 +831,7 @@ namespace microIoT {
  */
     let i_i = 1;
     let j_j = 1;
-    //% weight=59
+    //% weight=200
     //% block="initDisplay"
     export function initDisplay(): void {
         cmd(0xAE);  // Set display OFF
@@ -847,10 +895,8 @@ namespace microIoT {
     //% text.defl="DFRobot"
     //% line.min=0 line.max=7
     //% block="OLED show line %line|text %text"
-    export function showUserText(line: number, text: string) {
-       
+    export function showUserText(line: number, text: string): void {
         setTextXY(line);
-
         for (let c of text) {
             putChar(c);
         }
@@ -865,9 +911,7 @@ namespace microIoT {
     //% line.min=0 line.max=7
     //% block="OLED show line %line|number %n"
 
-    export function showUserNumber(line: number, n: number) {
-
-        
+    export function showUserNumber(line: number, n: number): void {
         microIoT.showUserText(line, "" + n)
     }
 
@@ -986,21 +1030,128 @@ namespace microIoT {
         "\x00\x44\x28\x10\x28\x44\x00\x00", // "x"
         "\x00\x1C\xA0\xA0\x7C\x00\x00\x00", // "y"
         "\x00\x44\x64\x54\x4C\x44\x00\x00", // "z"
-        //"\x00\x08\x36\x41\x00\x00\x00\x00", // "{"
-        //"\x00\x00\x7F\x00\x00\x00\x00\x00", // "|"
-        //"\x00\x41\x36\x08\x00\x00\x00\x00", // "}"
-        //"\x00\x02\x01\x01\x02\x01\x00\x00"  // "~"
+        "\x00\x08\x36\x41\x00\x00\x00\x00", // "{"
+        "\x00\x00\x7F\x00\x00\x00\x00\x00", // "|"
+        "\x00\x41\x36\x08\x00\x00\x00\x00", // "}"
+        "\x00\x02\x01\x01\x02\x01\x00\x00"  // "~"
     ];
 
-    /*
-        //% blockId=oled_draw_Line
-        //% block="OLED draw line start x1%x1|y1%y1| end x2%x2|y2%y2"
-        //% icon="\uf1ec" 
-        //% shim=OLED::drawLine
-        //% subcategory="OLED"
-        export function drawUserLine(x1: number, y1: number, x2: number, y2: number): void {
-            return;
+
+    let microIoT_Weather_URL = "api.dfrobot.top"
+    //天气
+    //% weight=80
+    //% block="Set Location|%location"
+    export function Set_location(location: LOCATION): void {
+        G_city = location;
+    }
+    function get_city(): string {
+        let city = "";
+        switch (G_city) {
+            case 0:
+                city = "Sentosa";
+                break;
+            case 1:
+                city = "Pulau_Ubin";
+                break;
+            case 2:
+                city = "Pulau_Tekong";
+                break;
+            case 3:
+                city = "Jurong_Island";
+                break;
+            case 4:
+                city = "Tuas";
+                break;
+            case 5:
+                city = "Changi";
+                break;
+            case 6:
+                city = "City";
+                break;
+            case 7:
+                city = "Woodlands";
+                break;
+            case 8:
+                city = "Lim_Chu_Kang";
+                break;
+            case 9:
+                city = "Central_Water_Catchment";
+                break;
+            case 10:
+                city = "Bukit_Timah";
+                break;
+            case 11:
+                city = "Punggol";
+                break;
+            case 12:
+                city = "Tanglin";
+                break;
+            case 13:
+                city = "Novena";
+                break;
+            case 14:
+                city = "Marine_Parade";
+                break;
+            case 15:
+                city = "Tampines";
+                break;
+            case 16:
+                city = "Jurong_East";
+                break;
+            case 17:
+                city = "Paya_Lebar";
+                break;
+            case 18:
+                city = "Queenstown";
+                break;
+            case 19:
+                city = "Kallang";
+                break;
+            default:
+                city = "Sentosa";
+                break;
         }
-    
-    */
+        return city;
+    }
+
+
+    function get_request(city: string, info: string): string {
+        microIoT_setPara(SETHTTP_IP, microIoT_Weather_URL);
+
+        let tempStr = ""
+        tempStr = "weather?city=Singapore&locations=" + city + "&info=" + info + "\r"
+        microIoT_ParaRunCommand(GET_URL, tempStr)
+        return microIoT_http_wait_request(10000);
+    }
+    //% weight=80
+    //% block="Get weather"
+    export function get_weather(): string {
+        let city = get_city();
+        let ret1 = get_request(city, "weather");
+        return ret1;
+    }
+
+    //% weight=80
+    //% block="Get temperature"
+    export function get_temperature(): string {
+        let city = get_city();
+        let ret2 = get_request(city, "temp_high/temp_low")
+        return ret2;
+    }
+
+    //% weight=80
+    //% block="Get humidity"
+    export function get_humidity(): string {
+        let city = get_city();
+        let ret3 = get_request(city, "humi_high/humi_low")
+        return ret3;
+    }
+
+    //% weight=80
+    //% block="Get wind speed"
+    export function get_windSpeed(): string {
+        let city = get_city();
+        let ret4 = get_request(city, "winds_max/winds_min");
+        return ret4;
+    }
 } 

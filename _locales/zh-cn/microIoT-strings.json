@@ -26,6 +26,10 @@
     "microIoT.showUserText|block": "OLED 显示屏 第%line行|显示文本%text",
     "microIoT.clear|block": "OLED清屏",
     "microIoT.drawUserLine|block": "OLED画线起点 x1:%x1|y1:%y1| 终点x2:%x2|y2:%y2",
-    "microIoT.initDisplay|block":"初始化OLED显示屏"
-
+    "microIoT.initDisplay|block":"初始化OLED显示屏",
+    "microIoT.get_weather|block":"获取天气",
+    "microIoT.get_temperature|block": "获取温度",
+    "microIoT.get_humidity|block": "获取湿度",
+    "microIoT.get_windSpeed|block": "获取风速",
+    "microIoT.Set_location|block": "设置新加坡位置|%location"
 }
