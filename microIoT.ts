@@ -15,30 +15,30 @@
 
 
 //debug
-const OBLOQ_DEBUG = false
-const OBLOQ_MQTT_DEFAULT_SERVER = true
+//const OBLOQ_DEBUG = false
+//const OBLOQ_MQTT_DEFAULT_SERVER = true
 //DFRobot easy iot
 const OBLOQ_MQTT_EASY_IOT_SERVER_CHINA = "iot.dfrobot.com.cn"
-const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "iot.dfrobot.com"
-const OBLOQ_MQTT_EASY_IOT_PORT = 1883
+const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "mqtt.beebotte.com"
+//const OBLOQ_MQTT_EASY_IOT_PORT = 1883
 //other iot
-const OBLOQ_MQTT_USER_IOT_SERVER = "---.-----.---"
-const OBLOQ_MQTT_USER_IOT_PORT = 0
+//const OBLOQ_MQTT_USER_IOT_SERVER = "---.-----.---"
+//const OBLOQ_MQTT_USER_IOT_PORT = 0
 //topic max number
-const OBLOQ_MQTT_TOPIC_NUM_MAX = 5
+//const OBLOQ_MQTT_TOPIC_NUM_MAX = 5
 //wrong type
-const OBLOQ_ERROR_TYPE_IS_SUCCE = 0
-const OBLOQ_ERROR_TYPE_IS_ERR = 1
-const OBLOQ_ERROR_TYPE_IS_WIFI_CONNECT_TIMEOUT = -1
-const OBLOQ_ERROR_TYPE_IS_WIFI_CONNECT_FAILURE = -2
-const OBLOQ_ERROR_TYPE_IS_MQTT_SUBTOPIC_TIMEOUT = -3
-const OBLOQ_ERROR_TYPE_IS_MQTT_CONNECT_TIMEOUT = -4
-const OBLOQ_ERROR_TYPE_IS_MQTT_CONNECT_FAILURE = -5
-const OBLOQ_ERROR_TYPE_IS_MQTT_SUBTOPIC_FAILURE = -6
+//const OBLOQ_ERROR_TYPE_IS_SUCCE = 0
+//const OBLOQ_ERROR_TYPE_IS_ERR = 1
+//const OBLOQ_ERROR_TYPE_IS_WIFI_CONNECT_TIMEOUT = -1
+//const OBLOQ_ERROR_TYPE_IS_WIFI_CONNECT_FAILURE = -2
+//const OBLOQ_ERROR_TYPE_IS_MQTT_SUBTOPIC_TIMEOUT = -3
+//const OBLOQ_ERROR_TYPE_IS_MQTT_CONNECT_TIMEOUT = -4
+//const OBLOQ_ERROR_TYPE_IS_MQTT_CONNECT_FAILURE = -5
+//const OBLOQ_ERROR_TYPE_IS_MQTT_SUBTOPIC_FAILURE = -6
 //data type
-const OBLOQ_STR_TYPE_IS_NONE = ""
-const OBLOQ_BOOL_TYPE_IS_TRUE = true
-const OBLOQ_BOOL_TYPE_IS_FALSE = false
+//const OBLOQ_STR_TYPE_IS_NONE = ""
+//const OBLOQ_BOOL_TYPE_IS_TRUE = true
+//const OBLOQ_BOOL_TYPE_IS_FALSE = false
 
 
 //天气
@@ -98,7 +98,7 @@ namespace microIoT {
     let Topic3CallBack: Action = null;
     let Topic4CallBack: Action = null;
     let Wifi_Status = 0x00
-    let microIoT_Mode = 0x00
+    //let microIoT_Mode = 0x00
 
     let READ_STATUS = 0x00
     let SET_PARA = 0x01
@@ -147,7 +147,7 @@ namespace microIoT {
     let READ_VERSION = 0x12
 
     /*para status */
-    let PING_ERR = 0x00
+    //let PING_ERR = 0x00
     let PING_OK = 0x01
     let WIFI_DISCONNECT = 0x00
     let WIFI_CONNECTING = 0x02
@@ -156,10 +156,10 @@ namespace microIoT {
     let MQTT_CONNECTERR = 0x02
     let SUB_TOPIC_OK = 0x01
     let SUB_TOPIC_Ceiling = 0x02
-    let SUB_TOPIC_ERR = 0x03
+    //let SUB_TOPIC_ERR = 0x03
 
     let microIoTStatus = ""
-    let microIoTData = ""
+    //let microIoTData = ""
     let WIFI_NAME = ""
     let WIFI_PASSWORLD = ""
     let MQTT_SERVER = ""
@@ -1117,7 +1117,6 @@ namespace microIoT {
 
     function get_request(city: string, info: string): string {
         microIoT_setPara(SETHTTP_IP, microIoT_Weather_URL);
-
         let tempStr = ""
         tempStr = "weather?city=Singapore&locations=" + city + "&info=" + info + "\r"
         microIoT_ParaRunCommand(GET_URL, tempStr)
