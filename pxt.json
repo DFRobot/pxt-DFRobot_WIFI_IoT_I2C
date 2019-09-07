@@ -1,5 +1,5 @@
 {
-    "name": "OLEDV1",
+    "name": "MicroIoT",
     "version": "1.2.6",
     "description": "",
     "license": "MIT",
@@ -9,8 +9,8 @@
     },
     "files": [
         "README.md",
-        "OLEDV1.ts",
-        "_locales/zh/OLEDV1-strings.json"
+        "microIoT.ts",
+        "_locales/zh/microIoT-strings.json"
     ],
     "testFiles": [],
     "public": true,

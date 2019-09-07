@@ -829,8 +829,7 @@ namespace microIoT {
     /**
  * OLED
  */
-    let i_i = 1;
-    let j_j = 1;
+   
     //% weight=200
     //% block="initDisplay"
     export function initDisplay(): void {
