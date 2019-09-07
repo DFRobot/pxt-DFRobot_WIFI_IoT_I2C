@@ -1040,7 +1040,7 @@ namespace microIoT {
     let microIoT_Weather_URL = "api.dfrobot.top"
     //天气
     //% weight=80
-    //% block="Set Location|%location"
+    //% block="Setting up Singapore city|%location"
     export function Set_location(location: LOCATION): void {
         G_city = location;
     }

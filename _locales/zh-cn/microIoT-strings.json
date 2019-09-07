@@ -31,5 +31,5 @@
     "microIoT.get_temperature|block": "获取温度",
     "microIoT.get_humidity|block": "获取湿度",
     "microIoT.get_windSpeed|block": "获取风速",
-    "microIoT.Set_location|block": "设置新加坡位置|%location"
+    "microIoT.Set_location|block": "设置新加坡城市|%location"
 }
