@@ -1,7 +1,7 @@
 {
-    "name": "MicroIoT",
-    "version": "1.2.6",
-    "description": "",
+    "name": "microIoT",
+    "version": "0.0.1",
+    "description": "Add Wi-Fi connectivity to micro:bit and start your IoT project in 5 minutes!",
     "license": "MIT",
     "dependencies": {
         "core": "*",
@@ -10,9 +10,11 @@
     "files": [
         "README.md",
         "microIoT.ts",
-        "_locales/zh/microIoT-strings.json"
+        "_locales/zh-cn/microIoT-strings.json",
+        "_locales/zh-tw/microIoT-strings.json"
     ],
     "testFiles": [],
     "public": true,
-    "installedVersion": "workspace:0c016a89-1dd0-4c72-e8c8-0cb527b5d362" 
+    "installedVersion": "workspace:2db0bc0f-9db5-410b-f4cf-1c3c3b2d234f",
+    "preferredEditor": "tsprj"
 }
