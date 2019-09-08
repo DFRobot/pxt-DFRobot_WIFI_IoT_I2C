@@ -875,7 +875,7 @@ namespace microIoT {
         setText(0,0);
     }
 
-    ffunction setText(row: number, column: number) {
+    function setText(row: number, column: number) {
         let r = row;
         let c = column;
         if (row < 0) { r = 0 }
