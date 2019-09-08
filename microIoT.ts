@@ -863,7 +863,7 @@ namespace microIoT {
     export function clear() {
         //cmd(DISPLAY_OFF);   //display off
         for (let j = 0; j < 8; j++) {
-            setTextXY(j);
+            setText(j,0);
             {
                 for (let i = 0; i < 16; i++)  //clear all columns
                 {
@@ -872,12 +872,17 @@ namespace microIoT {
             }
         }
         //cmd(DISPLAY_ON);    //display on
-        setTextXY(0);
+        setText(0,0);
     }
 
-    function setTextXY(A: number) {
-        let r = A;
-        let c = 0;
+    ffunction setText(row: number, column: number) {
+        let r = row;
+        let c = column;
+        if (row < 0) { r = 0 }
+        if (column < 0) { c = 0 }
+        if (row > 7) { r = 7 }
+        if (column > 15) { c = 15 }
+
         cmd(0xB0 + r);            //set page address
         cmd(0x00 + (8 * c & 0x0F));  //set column lower address
         cmd(0x10 + ((8 * c >> 4) & 0x0F));   //set column higher address
@@ -895,9 +900,14 @@ namespace microIoT {
     //% line.min=0 line.max=7
     //% block="OLED show line %line|text %text"
     export function showUserText(line: number, text: string): void {
-        setTextXY(line);
+        setText(line,0);
         for (let c of text) {
             putChar(c);
+        }
+        
+        for (let i = text.length ; i < 16 ;i++) {
+            setText(line, i);
+            putChar(" ");
         }
 
     }
