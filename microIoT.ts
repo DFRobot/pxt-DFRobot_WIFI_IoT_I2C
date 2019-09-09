@@ -86,6 +86,29 @@ enum LOCATION {
     Kallang = 19
 }
 
+enum NeoPixelColors {
+    //% block=red
+    Red = 0xFF0000,
+    //% block=orange
+    Orange = 0xFFA500,
+    //% block=yellow
+    Yellow = 0xFFFF00,
+    //% block=green
+    Green = 0x00FF00,
+    //% block=blue
+    Blue = 0x0000FF,
+    //% block=indigo
+    Indigo = 0x4b0082,
+    //% block=violet
+    Violet = 0x8a2be2,
+    //% block=purple
+    Purple = 0xFF00FF,
+    //% block=white
+    White = 0xFFFFFF,
+    //% block=black
+    Black = 0x000000
+}
+
 /**
  *Obloq implementation method.
  */
@@ -829,7 +852,7 @@ namespace microIoT {
     /**
  * OLED
  */
-   
+
     //% weight=200
     //% block="initDisplay"
     export function initDisplay(): void {
@@ -863,7 +886,7 @@ namespace microIoT {
     export function clear() {
         //cmd(DISPLAY_OFF);   //display off
         for (let j = 0; j < 8; j++) {
-            setText(j,0);
+            setText(j, 0);
             {
                 for (let i = 0; i < 16; i++)  //clear all columns
                 {
@@ -872,7 +895,7 @@ namespace microIoT {
             }
         }
         //cmd(DISPLAY_ON);    //display on
-        setText(0,0);
+        setText(0, 0);
     }
 
     function setText(row: number, column: number) {
@@ -900,12 +923,12 @@ namespace microIoT {
     //% line.min=0 line.max=7
     //% block="OLED show line %line|text %text"
     export function showUserText(line: number, text: string): void {
-        setText(line,0);
+        setText(line, 0);
         for (let c of text) {
             putChar(c);
         }
-        
-        for (let i = text.length ; i < 16 ;i++) {
+
+        for (let i = text.length; i < 16; i++) {
             setText(line, i);
             putChar(" ");
         }
@@ -1162,4 +1185,81 @@ namespace microIoT {
         let ret4 = get_request(city, "winds_max/winds_min");
         return ret4;
     }
-} 
+
+    let _brightness = 255
+    let neopixel_buf = pins.createBuffer(16 * 3);
+    for (let i = 0; i < 16 * 3; i++) {
+        neopixel_buf[i] = 0
+    }
+
+
+    //% weight=97
+    //% r.min=0 r.max=255
+    //% g.min=0 g.max=255
+    //% b.min=0 b.max=255
+    //%  block="R|%r G|%g B|%b"
+    export function rgb(r: number, g: number, b: number): number {
+        return (r << 16) + (g << 8) + (b);
+    }
+
+    //% weight=96
+    //% from.min=0 from.max3
+    //% to.min=0 to.max=3
+    //% to.defl=3
+    //%  block="led range from|%from to|%to"
+    export function ledRange(from: number, to: number): number {
+        return (from << 16) + (2 << 8) + (to);
+    }
+
+    //% weight=95
+    //% index.min=0 index.max=3
+    //% rgb.shadow="colorNumberPicker"
+    //%  block="set led index |%index color|%rgb"
+    export function setIndexColor(index: number, rgb: number) {
+        let f = index;
+        let t = index;
+        let r = (rgb >> 16) * (_brightness / 255);
+        let g = ((rgb >> 8) & 0xFF) * (_brightness / 255);
+        let b = ((rgb) & 0xFF) * (_brightness / 255);
+
+        if (index > 15) {
+            if (((index >> 8) & 0xFF) == 0x02) {
+                f = index >> 16;
+                t = index & 0xff;
+            } else {
+                f = 0;
+                t = -1;
+            }
+        }
+        for (let i = f; i <= t; i++) {
+            neopixel_buf[i * 3 + 0] = Math.round(g)
+            neopixel_buf[i * 3 + 1] = Math.round(r)
+            neopixel_buf[i * 3 + 2] = Math.round(b)
+        }
+        ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
+    }
+
+    //% weight=94
+    //% rgb.shadow="colorNumberPicker"
+    //%  block="show color |%rgb"
+    export function showColor(rgb: number) {
+        let r = (rgb >> 16) * (_brightness / 255);
+        let g = ((rgb >> 8) & 0xFF) * (_brightness / 255);
+        let b = ((rgb) & 0xFF) * (_brightness / 255);
+        for (let i = 0; i < 16 * 3; i++) {
+            if ((i % 3) == 0)
+                neopixel_buf[i] = Math.round(g)
+            if ((i % 3) == 1)
+                neopixel_buf[i] = Math.round(r)
+            if ((i % 3) == 2)
+                neopixel_buf[i] = Math.round(b)
+        }
+        ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
+    }
+    //% weight=75
+    //%  block="turn off all leds"
+    export function ledBlank() {
+        showColor(0)
+    }
+
+}

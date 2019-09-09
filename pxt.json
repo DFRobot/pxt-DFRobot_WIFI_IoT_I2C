@@ -10,6 +10,7 @@
     "files": [
         "README.md",
         "microIoT.ts",
+        "ws2812b.ts",
         "_locales/zh-cn/microIoT-strings.json",
         "_locales/zh-tw/microIoT-strings.json"
     ],
