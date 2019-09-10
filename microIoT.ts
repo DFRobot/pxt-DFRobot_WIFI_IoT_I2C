@@ -881,7 +881,7 @@ namespace microIoT {
         cmd(0xAF);  // Set display On
         clear();
     }
-    //% weight=59
+    //% weight=60
     //% block="clear"
     export function clear() {
         //cmd(DISPLAY_OFF);   //display off
@@ -1192,8 +1192,8 @@ namespace microIoT {
         neopixel_buf[i] = 0
     }
 
-
-    //% weight=97
+    //RGB灯
+    //% weight=60
     //% r.min=0 r.max=255
     //% g.min=0 g.max=255
     //% b.min=0 b.max=255
@@ -1202,7 +1202,7 @@ namespace microIoT {
         return (r << 16) + (g << 8) + (b);
     }
 
-    //% weight=96
+    //% weight=60
     //% from.min=0 from.max3
     //% to.min=0 to.max=3
     //% to.defl=3
@@ -1211,7 +1211,7 @@ namespace microIoT {
         return (from << 16) + (2 << 8) + (to);
     }
 
-    //% weight=95
+    //% weight=60
     //% index.min=0 index.max=3
     //% rgb.shadow="colorNumberPicker"
     //%  block="set led index |%index color|%rgb"
@@ -1239,7 +1239,7 @@ namespace microIoT {
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
     }
 
-    //% weight=94
+    //% weight=60
     //% rgb.shadow="colorNumberPicker"
     //%  block="show color |%rgb"
     export function showColor(rgb: number) {
@@ -1256,7 +1256,7 @@ namespace microIoT {
         }
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
     }
-    //% weight=75
+    //% weight=60
     //%  block="turn off all leds"
     export function ledBlank() {
         showColor(0)

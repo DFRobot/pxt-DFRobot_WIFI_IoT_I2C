@@ -31,5 +31,10 @@
     "microIoT.get_temperature|block": "获取温度",
     "microIoT.get_humidity|block": "获取湿度",
     "microIoT.get_windSpeed|block": "获取风速",
-    "microIoT.Set_location|block": "设置新加坡城市|%location"
+    "microIoT.Set_location|block": "设置新加坡城市|%location",
+    "microIoT.showColor|block":"显示颜色 |%rgb",
+    "microIoT.setIndexColor|block":"设置 灯号 |%index 颜色|%rgb",
+    "microIoT.ledRange|block":"灯号 从|%from 到|%to",
+    "microIoT.rgb|block": "红|%r 绿|%g 蓝|%b",
+    "microIoT.ledBlank|block":"RGB灯全部熄灭"
 }
