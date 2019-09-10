@@ -20,6 +20,7 @@
 //DFRobot easy iot
 const OBLOQ_MQTT_EASY_IOT_SERVER_CHINA = "iot.dfrobot.com.cn"
 const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "mqtt.beebotte.com"
+const OBLOQ_MQTT_EASY_IOT_SERVER_EN = "iot.dfrobot.com"
 //const OBLOQ_MQTT_EASY_IOT_PORT = 1883
 //other iot
 //const OBLOQ_MQTT_USER_IOT_SERVER = "---.-----.---"
@@ -225,9 +226,11 @@ namespace microIoT {
     }
 
     export enum SERVERS {
-        //% blockId=SERVERS_China block="China"
+        //% blockId=SERVERS_China block="EasyIOT_CN"
         China,
-        //% blockId=SERVERS_Global block="Global"
+        //% blockId=SERVERS_English block="EasyIOT_EN"
+        English,
+        //% blockId=SERVERS_Global block="Beebotte"
         Global
     }
 
@@ -425,9 +428,9 @@ namespace microIoT {
         //microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
         if (servers == SERVERS.China) {
             microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_CHINA)
-        } else {
-            microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL)
-        }
+        } else if (servers == SERVERS.English) {
+            microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_EN)
+        } else { microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL) }
         microIoT_setPara(SETMQTT_PORT, "1883")
         microIoT_setPara(SETMQTT_ID, IOT_ID)
         microIoT_setPara(SETMQTT_PASSWORLD, IOT_PWD)
