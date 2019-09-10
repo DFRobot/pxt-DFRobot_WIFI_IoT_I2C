@@ -43,6 +43,7 @@ const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "mqtt.beebotte.com"
 
 //天气
 //天气
+/*
 enum LOCATION {
     //%block="Sentosa"
     Sentosa = 0,
@@ -85,7 +86,7 @@ enum LOCATION {
     //%block="Kallang"
     Kallang = 19
 }
-
+*/
 enum NeoPixelColors {
     //% block=red
     Red = 0xFF0000,
@@ -474,7 +475,7 @@ namespace microIoT {
      * @param Mess to Mess ,eg: "mess"
      */
     //% weight=99
-    //% blockId=microIoT_SendMessage block="Send Message %string| to |%TOPIC"
+    //% blockId=microIoT_SendMessage block="MQTT Send Message %string| to |%TOPIC"
     export function microIoT_SendMessage(Mess: string, Topic: TOPIC): void {
         let topic = 0
 
@@ -526,7 +527,7 @@ namespace microIoT {
 
     //% weight=98
     //% blockGap=60
-    //% blockId=obloq_mqtt_callback_user_more block="on %top |received"
+    //% blockId=obloq_mqtt_callback_user_more block="MQTT on %top |received"
     //% top.fieldEditor="gridpicker" top.fieldOptions.columns=2
     export function microIoT_MQTT_Event(top: TOPIC, cb: (message: string) => void) {
         microIoT_callback(top, () => {
@@ -1071,6 +1072,7 @@ namespace microIoT {
 
     let microIoT_Weather_URL = "api.dfrobot.top"
     //天气
+    /*
     //% weight=80
     //% block="Setting up Singapore city|%location"
     export function Set_location(location: LOCATION): void {
@@ -1185,7 +1187,7 @@ namespace microIoT {
         let ret4 = get_request(city, "winds_max/winds_min");
         return ret4;
     }
-
+*/
     let _brightness = 255
     let neopixel_buf = pins.createBuffer(16 * 3);
     for (let i = 0; i < 16 * 3; i++) {
@@ -1237,6 +1239,7 @@ namespace microIoT {
             neopixel_buf[i * 3 + 2] = Math.round(b)
         }
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
+
     }
 
     //% weight=60
