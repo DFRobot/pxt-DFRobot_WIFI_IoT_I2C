@@ -7,8 +7,6 @@
     "microIoT.microIoT_motorStop|block": "电机 停止|%motors",
     "microIoT.microIoT_MotorRun|block": "电机|%index|方向|%Dir|速度|%speed",
     "microIoT.microIoT_ServoRun|block": "舵机|%index|角度|%angle",
-    "microIoT.SERVERS.China|block": "中国",
-    "microIoT.SERVERS.Global|block": "Beebotte",
     "microIoT.microIoT_MQTT|block": "MQTT 初始设置| 物联网服务:| IoT_id: %IOT_ID| IoT_pwd: %IOT_PWD| (默认topic_0)TOPIC: %IOT_TOPIC| 启动连接:| 服务器: %SERVERS",
     "microIoT.microIoT_SendMessage|block": "MQTT发送消息 %string| 至 |%TOPIC",
     "microIoT.microIoT_MQTT_Event|block": "MQTT在 %top |收到消息时运行",
