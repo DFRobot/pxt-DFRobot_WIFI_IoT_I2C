@@ -21,6 +21,7 @@
 const OBLOQ_MQTT_EASY_IOT_SERVER_CHINA = "iot.dfrobot.com.cn"
 const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "mqtt.beebotte.com"
 const OBLOQ_MQTT_EASY_IOT_SERVER_EN = "iot.dfrobot.com"
+const  microIoT_WEBHOOKS_URL = "maker.ifttt.com"
 //const OBLOQ_MQTT_EASY_IOT_PORT = 1883
 //other iot
 //const OBLOQ_MQTT_USER_IOT_SERVER = "---.-----.---"
@@ -123,6 +124,10 @@ namespace microIoT {
     let Topic3CallBack: Action = null;
     let Topic4CallBack: Action = null;
     let Wifi_Status = 0x00
+	
+    let microIoT_WEBHOOKS_KEY = ""
+    let microIoT_WEBHOOKS_EVENT = ""
+	
     //let microIoT_Mode = 0x00
 
     let READ_STATUS = 0x00
@@ -540,9 +545,7 @@ namespace microIoT {
         });
     }
 
-    let microIoT_WEBHOOKS_URL = "maker.ifttt.com"
-    let microIoT_WEBHOOKS_KEY = ""
-    let microIoT_WEBHOOKS_EVENT = ""
+    
     /**
          * @param EVENT to EVENT ,eg: "yourEvent"
          * @param KEY to KEY ,eg: "yourKey"
