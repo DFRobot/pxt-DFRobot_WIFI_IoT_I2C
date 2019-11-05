@@ -21,7 +21,8 @@
 const OBLOQ_MQTT_EASY_IOT_SERVER_CHINA = "iot.dfrobot.com.cn"
 const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "mqtt.beebotte.com"
 const OBLOQ_MQTT_EASY_IOT_SERVER_EN = "iot.dfrobot.com"
-const  microIoT_WEBHOOKS_URL = "maker.ifttt.com"
+const microIoT_WEBHOOKS_URL = "maker.ifttt.com"
+const OBLOQ_MQTT_EASY_IOT_SERVER_TK = "api.thingspeak.com"
 //const OBLOQ_MQTT_EASY_IOT_PORT = 1883
 //other iot
 //const OBLOQ_MQTT_USER_IOT_SERVER = "---.-----.---"
@@ -124,10 +125,10 @@ namespace microIoT {
     let Topic3CallBack: Action = null;
     let Topic4CallBack: Action = null;
     let Wifi_Status = 0x00
-	
+
     let microIoT_WEBHOOKS_KEY = ""
     let microIoT_WEBHOOKS_EVENT = ""
-	
+
     //let microIoT_Mode = 0x00
 
     let READ_STATUS = 0x00
@@ -545,7 +546,7 @@ namespace microIoT {
         });
     }
 
-    
+
     /**
          * @param EVENT to EVENT ,eg: "yourEvent"
          * @param KEY to KEY ,eg: "yourKey"
@@ -625,6 +626,16 @@ namespace microIoT {
         return microIoT_http_wait_request(time);
     }
 */
+    //% weight=99
+    //% blockId=IFTTT_MQTT_Weather_ThingSpeak_Get
+    //% block="ThingSpeak(Get) | write key %KEY|value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
+    export function Obloq_http_TK_GET(KEY: string, field1: string, field2: string, field3: string, time: number): string {
+        microIoT_setPara(SETHTTP_IP, OBLOQ_MQTT_EASY_IOT_SERVER_TK)
+        let tempStr = ""
+        tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "\r"
+        microIoT_ParaRunCommand(GET_URL, tempStr);
+        return microIoT_http_wait_request(time);
+    }
     /**
      * The HTTP post request.url(string): URL; content(string):content
      * time(ms): private long maxWait
