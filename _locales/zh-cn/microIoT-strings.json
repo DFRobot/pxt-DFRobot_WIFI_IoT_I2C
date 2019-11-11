@@ -34,5 +34,6 @@
     "microIoT.setIndexColor|block": "设置 灯号 |%index 颜色|%rgb",
     "microIoT.ledRange|block": "灯号 从|%from 到|%to",
     "microIoT.rgb|block": "红|%r 绿|%g 蓝|%b",
-    "microIoT.ledBlank|block": "RGB灯全部熄灭"
+    "microIoT.ledBlank|block": "RGB灯全部熄灭",
+    "microIoT. setBrightness|block": "设置RGB灯亮度|%brightness"
 }

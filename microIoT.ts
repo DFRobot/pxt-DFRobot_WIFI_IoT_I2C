@@ -2567,7 +2567,7 @@ namespace microIoT {
         }
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
     }
-    //% weight=93
+    //% weight=60
     //% brightness.min=0 brightness.max=255
     //% blockId=set_brightness block="set brightness |%brightness"
     export function setBrightness(brightness: number) {
