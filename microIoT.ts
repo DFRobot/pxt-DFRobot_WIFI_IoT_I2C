@@ -9,7 +9,7 @@
  * @copyright	GNU Lesser General Public License
  *
  * @author [email](xiao.wu@dfrobot.com)
- * @version  V0.1
+ * @version  V0.0.2
  * @date  2019-05-31
  */
 
@@ -629,12 +629,12 @@ namespace microIoT {
     //% weight=99
     //% blockId=IFTTT_MQTT_Weather_ThingSpeak_Get
     //% block="ThingSpeak(Get) | write key %KEY|value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
-    export function Obloq_http_TK_GET(KEY: string, field1: string, field2: string, field3: string, time: number): string {
+    export function Obloq_http_TK_GET(KEY: string, field1: string, field2: string, field3: string, time: number): void {
         microIoT_setPara(SETHTTP_IP, OBLOQ_MQTT_EASY_IOT_SERVER_TK)
         let tempStr = ""
         tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "\r"
         microIoT_ParaRunCommand(GET_URL, tempStr);
-        return microIoT_http_wait_request(time);
+        //return microIoT_http_wait_request(time);
     }
     /**
      * The HTTP post request.url(string): URL; content(string):content
@@ -644,12 +644,12 @@ namespace microIoT {
     //% weight=78
     //% blockId=microIoT_http_post
     //% block="IFTTT(post) | value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
-    export function microIoT_http_post(value1: string, value2: string, value3: string, time: number): string {
+    export function microIoT_http_post(value1: string, value2: string, value3: string, time: number): void {
         microIoT_setPara(SETHTTP_IP, microIoT_WEBHOOKS_URL)
         let tempStr = ""
         tempStr = "trigger/" + microIoT_WEBHOOKS_EVENT + "/with/key/" + microIoT_WEBHOOKS_KEY + ",{\"value1\":\"" + value1 + "\",\"value2\":\"" + value2 + "\",\"value3\":\"" + value3 + "\" }" + "\r"
         microIoT_ParaRunCommand(POST_URL, tempStr)
-        return microIoT_http_wait_request(time);
+        //return microIoT_http_wait_request(time);
     }
 
     /**
