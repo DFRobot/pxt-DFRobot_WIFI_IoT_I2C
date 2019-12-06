@@ -627,16 +627,16 @@ namespace microIoT {
     }
 */
     /**
-    * @param KEY to KEY ,eg: "yourKey"
+    * @param KEY to KEY ,eg: "your write api key"
     */
- 
+
     //% weight=99
     //% blockId=IFTTT_MQTT_Weather_ThingSpeak_Get
-    //% block="ThingSpeak(Get) | key %KEY|value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
-    export function Obloq_http_TK_GET(KEY: string, field1: number, field2: number, field3: number, time: number): void {
+    //% block="ThingSpeak(Get) | key %KEY|value1 %field1| value2 %field2| value3 %field3|  value4 %field4| value5 %field5| value6 %field6| value7 %field7| timeout(ms) %time"
+    export function Obloq_http_TK_GET(KEY: string, field1: string, field2: string, field3: string, field4: string, field5: string, field6: string, field7: string, time: number): void {
         microIoT_setPara(SETHTTP_IP, OBLOQ_MQTT_EASY_IOT_SERVER_TK)
         let tempStr = ""
-        tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "\r"
+        tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "&field4=" + field4 + "&field5=" + field5 + "&field6=" + field6 + "&field7=" + field7 +"\r"
         microIoT_ParaRunCommand(GET_URL, tempStr);
         //return microIoT_http_wait_request(time);
     }
@@ -1280,7 +1280,7 @@ namespace microIoT {
         }
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
     }
-    
+
     //% weight=60
     //% brightness.min=0 brightness.max=255
     //% block="set brightness |%brightness"
