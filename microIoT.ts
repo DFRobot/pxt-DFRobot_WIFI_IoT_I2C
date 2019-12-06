@@ -626,10 +626,14 @@ namespace microIoT {
         return microIoT_http_wait_request(time);
     }
 */
+    /**
+    * @param KEY to KEY ,eg: "yourKey"
+    */
+ 
     //% weight=99
     //% blockId=IFTTT_MQTT_Weather_ThingSpeak_Get
-    //% block="ThingSpeak(Get) | write key %KEY|value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
-    export function Obloq_http_TK_GET(KEY: string, field1: string, field2: string, field3: string, time: number): void {
+    //% block="ThingSpeak(Get) | key %KEY|value1 %value1| value2 %value2| value3 %value3| timeout(ms) %time"
+    export function Obloq_http_TK_GET(KEY: string, field1: number, field2: number, field3: number, time: number): void {
         microIoT_setPara(SETHTTP_IP, OBLOQ_MQTT_EASY_IOT_SERVER_TK)
         let tempStr = ""
         tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "\r"
