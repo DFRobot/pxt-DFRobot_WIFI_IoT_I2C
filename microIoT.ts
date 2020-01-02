@@ -179,7 +179,7 @@ namespace microIoT {
     }
 
     /**
-     * Set the microIoT servos.
+     * Configure the micro:IoT servo.
      */
 
     //% weight=50
@@ -199,7 +199,7 @@ namespace microIoT {
     }
 
     /**
-     * Set the microIoT motor 
+     * Configure the direction and speed of the micro:IoT motor 
      */
 
     //% weight=49
@@ -237,7 +237,7 @@ namespace microIoT {
     }
 
     /**
-     * Set the motor stop
+     * Stop the motor
      */
 
     //% weight=48
@@ -449,7 +449,7 @@ namespace microIoT {
         }
     }
     /**
-     * MQTT processes the subscription receiving information
+     * MQTT processes the subscription when receiving message
      */
     //% weight=98
     //% blockGap=60
@@ -765,7 +765,7 @@ namespace microIoT {
      * OLED clear
      */
     //% weight=60
-    //% block="OLED clear"
+    //% block="clear OLED"
     export function microIoT_clear() {
         for (let j = 0; j < 8; j++) {
             microIoT_setText(j, 0);
@@ -804,7 +804,7 @@ namespace microIoT {
     //% weight=60
     //% text.defl="DFRobot"
     //% line.min=0 line.max=7
-    //% block="OLED show line %line|text %text"
+    //% block="OLED show text %text|on line %line"
     export function microIoT_showUserText(line: number, text: string): void {
         microIoT_setText(line, 0);
         for (let c of text) {
@@ -824,7 +824,7 @@ namespace microIoT {
      */
     //% weight=60
     //% line.min=0 line.max=7
-    //% block="OLED show line %line|number %n"
+    //% block="OLED show number %n|on line %line"
 
     export function microIoT_showUserNumber(line: number, n: number): void {
         microIoT.microIoT_showUserText(line, "" + n)
@@ -959,9 +959,8 @@ namespace microIoT {
         neopixel_buf[i] = 0
     }
 
-    /**
-     * 设置RGB三原色
-     * Set the RGB primary colors
+    /** 
+     * Set the three primary color:red, green, and blue
      */
     //% weight=60
     //% r.min=0 r.max=255
@@ -973,7 +972,7 @@ namespace microIoT {
     }
 
     /**
-     * RGB灯从多少点亮到多少
+     * RGB LEDs light up from A to B 
      */
     //% weight=60
     //% from.min=0 from.max3
@@ -984,8 +983,7 @@ namespace microIoT {
         return (from << 16) + (2 << 8) + (to);
     }
    /**
-    * 设置第几个灯的颜色
-    * Set the color of the first light
+    * Set the color of a specified LED
     */
     //% weight=60
     //% index.min=0 index.max=3
@@ -1016,8 +1014,7 @@ namespace microIoT {
 
     }
  /**
-     * 设置全部RGB灯颜色
-     * Set all the RGB light color
+     * Set the color of all RGB LEDs
      */
     //% weight=60
     //% rgb.shadow="colorNumberPicker"
@@ -1037,8 +1034,7 @@ namespace microIoT {
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
     }
     /**
-     * 设置RGB灯亮度
-     * Set the brightness of the RGB light
+     * Set the brightness of RGB LED
      */
     //% weight=60
     //% brightness.min=0 brightness.max=255
@@ -1047,8 +1043,7 @@ namespace microIoT {
         _brightness = brightness;
     }
     /**
-     * 关闭RGB灯
-     * Close the RGB lights
+     * Turn off all RGB LEDs
      */
     //% weight=60
     //%  block="RGB lights are all off"
