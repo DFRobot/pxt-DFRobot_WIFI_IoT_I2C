@@ -1,12 +1,11 @@
 # micro:IoT-micro:bit IoT Expansion Board 
 [This micro:bit-based IoT expansion board is pretty cute and delicate, on which we integrated Wi-Fi, OLED, 2-way motor drive, 6-way IO port, 2-way IIC, 1-way serial port, 1-way buzzer, 3-way RGB, 2-way servo, Li-ion battery holder, charging circuit, emergency power interface etc.](https://www.dfrobot.com/product-1926.html?tracking=5d9d760421f87)
 
-So many resources for you to programme! Even without complicated background knowledge, you can build you IoT applications in few steps!
+So many resources for you to programme! Even without much background knowledge, you can build your IoT applications in few steps!
 
 ## Basic usage
 
-* OLED屏幕显示参数
-* OLED display parameters
+* Display parameters on OLED
 ```blocks
 microIoT.microIoT_initDisplay()
 basic.forever(function () {
@@ -19,8 +18,7 @@ basic.forever(function () {
 
 ```
 
-* 按下A键发送数据到物联网
-* Press A to send data to the Internet of things
+* Press button A to send data to IoT
 
 ```blocks
 input.onButtonPressed(Button.A, function () {
@@ -38,8 +36,7 @@ basic.forever(function () {
 })
 ```
 
-* 按下A键向ThingSpeak发送数据
-* Press A to send data to ThingSpeak
+* Press button A to send data to ThingSpeak
 
 ```blocks
 input.onButtonPressed(Button.A, function () {
@@ -62,7 +59,6 @@ basic.forever(function () {
 
 ```
 
-* 按下A键向IFTTT发送数据
 * Press A to send data to IFTTT
 
 ```blocks
@@ -82,8 +78,7 @@ basic.forever(function () {
 
 ```
 
-* 按下A键RGB灯从0到3点亮黄色
-* Press the A key and the RGB lights yellow from 0 to 3
+* Press button A to light up RGB LEDs 0 to 3 in yellow
 
 ```blocks
 input.onButtonPressed(Button.A, function () {
@@ -95,8 +90,7 @@ basic.forever(function () {
 
 ```
 
-* 舵机和电机控制
-* Steering servo and motor control
+* Control servo and motor
 ```blocks
 microIoT.microIoT_ServoRun(microIoT.aServos.S1, 90)
 microIoT.microIoT_MotorRun(microIoT.aMotors.M1, microIoT.Dir.CW, 0)
