@@ -3,7 +3,7 @@
 
 So many resources for you to programme! Even without much background knowledge, you can build your IoT applications in few steps!
 
-## Basic usage
+## Basic Usage
 
 * Display parameters on OLED
 ```blocks
