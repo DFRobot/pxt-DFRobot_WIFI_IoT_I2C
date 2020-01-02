@@ -12,11 +12,11 @@
         "microIoT.ts",
         "ws2812b.ts",
         "sendBuffer.asm",
-        "_locales/zh-cn/microIoT-strings.json",
-        "_locales/zh-tw/microIoT-strings.json"
+        "_locales/zh-cn/microIoT-strings.json"
     ],
-    "testFiles": [],
+    "testFiles": [
+        "test.ts"
+    ],
     "public": true,
-    "installedVersion": "workspace:2db0bc0f-9db5-410b-f4cf-1c3c3b2d234f",
     "preferredEditor": "tsprj"
 }
