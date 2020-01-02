@@ -1,5 +1,5 @@
 # micro:IoT-micro:bit IoT Expansion Board 
-[This micro:bit-based IoT expansion board is pretty cute and delicate, on which we integrated Wi-Fi, OLED, 2-way motor drive, 6-way IO port, 2-way IIC, 1-way serial port, 1-way buzzer, 3-way RGB, 2-way servo, Li-ion battery holder, charging circuit, emergency power interface etc.](https://www.dfrobot.com/product-1926.html?tracking=5d9d760421f87)
+[This micro:bit-based IoT expansion board is pretty cute and delicate, on which we integrated Wi-Fi, OLED, 2-way motor drive, 6-way IO port, 2-way IIC, 1-way serial port, 1-way buzzer, 3-way RGB, 2-way servo, Li-ion battery holder, charging circuit, emergency power interface, etc.](https://www.dfrobot.com/product-1926.html?tracking=5d9d760421f87)
 
 So many resources for you to programme! Even without much background knowledge, you can build your IoT applications in few steps!
 
