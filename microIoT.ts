@@ -734,7 +734,7 @@ namespace microIoT {
     */
 
     //% weight=200
-    //% block="init Display"
+    //% block="init display"
     export function microIoT_initDisplay(): void {
         microIoT_cmd(0xAE);  // Set display OFF
         microIoT_cmd(0xD5);  // Set Display Clock Divide Ratio / OSC Frequency 0xD4
