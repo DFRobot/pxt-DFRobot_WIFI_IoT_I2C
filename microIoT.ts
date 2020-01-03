@@ -203,7 +203,7 @@ namespace microIoT {
      */
 
     //% weight=49
-    //% blockId=microIoT_MotorRun block="Motor|%index|dir|%Dir|speed|%speed"
+    //% blockId=microIoT_MotorRun block="Motor|%index|move|%Dir|at speed|%speed"
     //% speed.min=0 speed.max=255
     //% index.fieldEditor="gridpicker" index.fieldOptions.columns=2
     //% direction.fieldEditor="gridpicker" direction.fieldOptions.columns=2
@@ -241,7 +241,7 @@ namespace microIoT {
      */
 
     //% weight=48
-    //% blockId=microIoT_motorStop block="Motor stop|%motors"
+    //% blockId=microIoT_motorStop block="Motor |%motors stop"
     //% motors.fieldEditor="gridpicker" motors.fieldOptions.columns=2 
     export function microIoT_motorStop(motors: aMotors): void {
         let buf = pins.createBuffer(3);
@@ -734,7 +734,7 @@ namespace microIoT {
     */
 
     //% weight=200
-    //% block="initDisplay"
+    //% block="init Display"
     export function microIoT_initDisplay(): void {
         microIoT_cmd(0xAE);  // Set display OFF
         microIoT_cmd(0xD5);  // Set Display Clock Divide Ratio / OSC Frequency 0xD4
@@ -978,17 +978,17 @@ namespace microIoT {
     //% from.min=0 from.max3
     //% to.min=0 to.max=3
     //% to.defl=3
-    //%  block="RGB light |%from to|%to"
+    //%  block="RGB LEDs |%from to|%to"
     export function microIoT_ledRange(from: number, to: number): number {
         return (from << 16) + (2 << 8) + (to);
     }
    /**
-    * Set the color of a specified LED
+    * Set the color of the specified LEDs
     */
     //% weight=60
     //% index.min=0 index.max=3
     //% rgb.shadow="colorNumberPicker"
-    //%  block="RGB lights |%index show color|%rgb"
+    //%  block="RGB LED |%index show color|%rgb"
     export function microIoT_setIndexColor(index: number, rgb: number) {
         let f = index;
         let t = index;
@@ -1038,7 +1038,7 @@ namespace microIoT {
      */
     //% weight=60
     //% brightness.min=0 brightness.max=255
-    //% block="RGB set brightness to |%brightness"
+    //% block="set brightness to |%brightness"
     export function microIoT_setBrightness(brightness: number) {
         _brightness = brightness;
     }
@@ -1046,7 +1046,7 @@ namespace microIoT {
      * Turn off all RGB LEDs
      */
     //% weight=60
-    //%  block="RGB lights are all off"
+    //%  block="clear all LEDs"
     export function microIoT_ledBlank() {
         microIoT_showColor(0)
     }
