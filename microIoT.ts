@@ -353,7 +353,7 @@ namespace microIoT {
 
     //% weight=100
     //% blockExternalInputs=1
-    //% blockId=microIoT_MQTT block="Micro:IoT setup mqtt|IOT_ID: %IOT_ID| IOT_PWD :%IOT_PWD| IoT service:|(default topic_0) Topic: %IOT_TOPIC| start connection:| server: %SERVERS"
+    //% blockId=microIoT_MQTT block="Micro:IoT setup mqtt|IOT_ID(user): %IOT_ID| IOT_PWD(password) :%IOT_PWD|(default topic_0) Topic: %IOT_TOPIC| server: %SERVERS"
     export function microIoT_MQTT(/*SSID: string, PASSWORD: string,*/
         IOT_ID: string, IOT_PWD: string,
         IOT_TOPIC: string, servers: SERVERS):
@@ -730,7 +730,7 @@ namespace microIoT {
 
 
     /**
-    * OLED init
+    * Initialize OLED, just put the module in the module at the beginning of the code, no need to reuse
     */
 
     //% weight=200
