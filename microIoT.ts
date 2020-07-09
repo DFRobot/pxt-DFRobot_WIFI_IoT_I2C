@@ -114,7 +114,7 @@ namespace microIoT {
     let MQTT_CONNECTERR = 0x02
     let SUB_TOPIC_OK = 0x01
     let SUB_TOPIC_Ceiling = 0x02
-   
+
 
     let microIoTStatus = ""
     let WIFI_NAME = ""
@@ -370,7 +370,7 @@ namespace microIoT {
         microIoT_runCommand(CONNECT_MQTT);
         microIoT_CheckStatus("MQTTConnected");
         serial.writeString("mqtt connected\r\n");
-      
+
         Topic_0 = IOT_TOPIC
         microIoT_ParaRunCommand(SUB_TOPIC0, IOT_TOPIC);
         microIoT_CheckStatus("SubTopicOK");
@@ -513,7 +513,7 @@ namespace microIoT {
     export function microIoT_http_TK_GET(KEY: string, field1: string, field2: string, field3: string, field4: string, field5: string, field6: string, field7: string, time: number): void {
         microIoT_setPara(SETHTTP_IP, OBLOQ_MQTT_EASY_IOT_SERVER_TK)
         let tempStr = ""
-        tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "&field4=" + field4 + "&field5=" + field5 + "&field6=" + field6 + "&field7=" + field7 +"\r"
+        tempStr = "update?api_key=" + KEY + "&field1=" + field1 + "&field2=" + field2 + "&field3=" + field3 + "&field4=" + field4 + "&field5=" + field5 + "&field6=" + field6 + "&field7=" + field7 + "\r"
         microIoT_ParaRunCommand(GET_URL, tempStr);
     }
 
@@ -533,7 +533,7 @@ namespace microIoT {
         microIoT_ParaRunCommand(POST_URL, tempStr)
     }
 
-   
+
 
     /**
      * Get IP address.
@@ -952,7 +952,7 @@ namespace microIoT {
     ];
 
 
-    
+
     let _brightness = 255
     let neopixel_buf = pins.createBuffer(16 * 3);
     for (let i = 0; i < 16 * 3; i++) {
@@ -982,9 +982,9 @@ namespace microIoT {
     export function microIoT_ledRange(from: number, to: number): number {
         return (from << 16) + (2 << 8) + (to);
     }
-   /**
-    * Set the color of the specified LEDs
-    */
+    /**
+     * Set the color of the specified LEDs
+     */
     //% weight=60
     //% index.min=0 index.max=3
     //% rgb.shadow="colorNumberPicker"
@@ -1013,9 +1013,9 @@ namespace microIoT {
         ws2812b.sendBuffer(neopixel_buf, DigitalPin.P15)
 
     }
- /**
-     * Set the color of all RGB LEDs
-     */
+    /**
+        * Set the color of all RGB LEDs
+        */
     //% weight=60
     //% rgb.shadow="colorNumberPicker"
     //%  block="show color |%rgb"

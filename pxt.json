@@ -4,8 +4,7 @@
     "description": "Add Wi-Fi connectivity to micro:bit and start your IoT project in 5 minutes!",
     "license": "MIT",
     "dependencies": {
-        "core": "*",
-        "radio": "*"
+        "core": "*"
     },
     "files": [
         "README.md",
@@ -18,8 +17,8 @@
         "test.ts"
     ],
     "public": true,
-    "preferredEditor": "tsprj",
     "supportedTargets": [
         "microbit"
-    ]
+    ],
+    "preferredEditor": "tsprj"
 }
