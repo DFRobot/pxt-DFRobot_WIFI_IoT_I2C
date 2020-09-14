@@ -1,5 +1,5 @@
 {
-    "name": "microIoT",
+    "name": "DFRobot_WIFI_I0T_I2C",
     "version": "1.0.1",
     "description": "Add Wi-Fi connectivity to micro:bit and start your IoT project in 5 minutes!",
     "license": "MIT",
@@ -8,10 +8,8 @@
     },
     "files": [
         "README.md",
-        "microIoT.ts",
-        "ws2812b.ts",
-        "sendBuffer.asm",
-        "_locales/zh-cn/microIoT-strings.json"
+        "Obloq.ts",
+        "_locales/zh-cn/DFRobot_WIFI_I0T_I2C-strings.json"
     ],
     "testFiles": [
         "test.ts"
