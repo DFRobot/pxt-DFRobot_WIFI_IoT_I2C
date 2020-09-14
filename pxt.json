@@ -1,6 +1,6 @@
 {
     "name": "DFRobot_WIFI_I0T_I2C",
-    "version": "1.0.1",
+    "version": "0.0.1",
     "description": "Add Wi-Fi connectivity to micro:bit and start your IoT project in 5 minutes!",
     "license": "MIT",
     "dependencies": {
