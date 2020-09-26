@@ -19,7 +19,7 @@
 namespace DFRobotWiFiIoTI2C {
     
     const OBLOQ_MQTT_EASY_IOT_SERVER_CHINA = "iot.dfrobot.com.cn"
-    const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "mqtt.beebotte.com"
+    const OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL = "api.beebotte.com"
     const OBLOQ_MQTT_EASY_IOT_SERVER_EN = "iot.dfrobot.com"
     const microIoT_WEBHOOKS_URL = "maker.ifttt.com"
     const OBLOQ_MQTT_EASY_IOT_SERVER_TK = "api.thingspeak.com"
@@ -34,7 +34,8 @@ namespace DFRobotWiFiIoTI2C {
 
     let microIoT_WEBHOOKS_KEY = ""
     let microIoT_WEBHOOKS_EVENT = ""
-     let microIoT_THINGSPEAK_KEY = ""
+    let microIoT_THINGSPEAK_KEY = ""
+    let microIoT_BEEBOTTE_Token = ""
 
     let READmode = 0x00
     let Wifimode = 0x00
@@ -118,8 +119,6 @@ namespace DFRobotWiFiIoTI2C {
         China,
         //% blockId=SERVERS_English block="EasyIOT_EN"
         English,
-        //% blockId=SERVERS_Global block="Beebotte"
-        Global,
         //% block="SIOT"
         SIOT
     }
@@ -238,9 +237,11 @@ namespace DFRobotWiFiIoTI2C {
             microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_CHINA)
         } else if (servers == SERVERS.English) {
             microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_EN)
-        } else if(servers == SERVERS.Global){
-            microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL)
-        }else{microIoT_setPara(SETMQTT_SERVER, IP)}
+        } 
+        // else if(servers == SERVERS.Global){
+        //     microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL)
+        // }
+        else{microIoT_setPara(SETMQTT_SERVER, IP)}
         microIoT_setPara(SETMQTT_PORT, "1883")//1883
         microIoT_setPara(SETMQTT_ID, IOT_ID)
         microIoT_setPara(SETMQTT_PASSWORLD, IOT_PWD)
@@ -357,7 +358,27 @@ namespace DFRobotWiFiIoTI2C {
         microIoT_WEBHOOKS_EVENT = EVENT
         microIoT_WEBHOOKS_KEY = KEY
     }
-
+     /**Beebotte Configure 
+     * @param token ,eg: "Your Channel Token"
+     */
+    //%weight=30
+    //%blockID=WiFi_IoT_I2C_BeeBotte_Configura block="BeeBotte configura key: %token "
+    export function token(token:string):void{
+        microIoT_BEEBOTTE_Token = token;
+    }
+    /**BeeBotte send data
+     * @param channel ,eg: "Your Channel Name"
+     * @param resource ,eg: "Your Resource Name"
+     * @param data ,eg: "Send Message"
+     */
+     //%weight=29
+    //%blockID=WiFi_IoT_I2C_BeeBotte_sendmessage block="BeeBotte Channel: %channel Resource: %resource send value %data "
+    export function sendmessage(channel:string, resource:string, data:string){
+        microIoT_setPara(SETHTTP_IP, OBLOQ_MQTT_EASY_IOT_SERVER_GLOBAL)
+        let tempStr = ""
+        tempStr = "v1/data/write/" + channel + "/" + resource + "?token=" + microIoT_BEEBOTTE_Token +",{\"data\":" + data + "}\r\n";
+        microIoT_ParaRunCommand(POST_URL, tempStr);
+    }
     function microIoT_http_wait_request(time: number): string {
         if (time < 100) {
             time = 100
@@ -382,7 +403,7 @@ namespace DFRobotWiFiIoTI2C {
     
     /**
      * ThingSpeak configuration
-     * @param KEY to KEY ,eg: "yourKey"
+     * @param KEY to KEY ,eg: "your Key"
      */
     //% weight=31
     //% receive.fieldEditor="gridpicker" receive.fieldOptions.columns=3
@@ -428,20 +449,20 @@ namespace DFRobotWiFiIoTI2C {
         tempStr = "trigger/" + microIoT_WEBHOOKS_EVENT + "/with/key/" + microIoT_WEBHOOKS_KEY + ",{\"value1\":\"" + value1 + "\",\"value2\":\"" + value2 + "\",\"value3\":\"" + value3 + "\" }" + "\r"
         microIoT_ParaRunCommand(POST_URL, tempStr)
     }
+
+
     /**
      * Two parallel stepper motors are executed simultaneously(DegreeDual).
      * @param IP to IP ,eg: "0.0.0.0"
      * @param PORT to PORT ,eg: 80
     */
 	
-    //% weight=29
+    //% weight=28
     //% receive.fieldEditor="gridpicker" receive.fieldOptions.columns=3
     //% send.fieldEditor="gridpicker" send.fieldOptions.columns=3
     //% blockId=WiFi_IoT_UART_http_setup
-    //% block="configure http | ip: %IP| port: %PORT | start connection"
-    export function httpSetup(SSID: string, PASSWORD: string,
-        IP: string, PORT: number):
-        void {
+    //% block="configure http ip: %IP port: %PORT  start connection"
+    export function httpSetup(IP: string, PORT: number):void {
         microIoT_setPara(SETHTTP_IP, IP)
         microIoT_setPara(SETHTTP_PORT, PORT.toString())
         microIoT_runCommand(CONNECT_WIFI)
@@ -453,7 +474,7 @@ namespace DFRobotWiFiIoTI2C {
      * @param time set timeout, eg: 10000
     */
 	
-    //% weight=28
+    //% weight=27
     //% blockId=WiFi_IoT_I2C_http_get
     //% block="http(get) | url %url| timeout(ms) %time"
     export function httpGet(url: string, time: number): string {
@@ -467,7 +488,7 @@ namespace DFRobotWiFiIoTI2C {
      * time(ms): private long maxWait
      * @param time set timeout, eg: 10000
     */
-    //% weight=27
+    //% weight=26
     //% blockId=WiFi_IoT_I2C_http_post
     //% block="http(post) | url %url| content %content| timeout(ms) %time"
     export function httpPost(url: string, content: string, time: number): string {
@@ -483,7 +504,7 @@ namespace DFRobotWiFiIoTI2C {
      * @param time set timeout, eg: 10000
     */
 	
-    //% weight=26
+    //% weight=25
     //% blockId=WiFi_IoT_I2C_http_put
     //% block="http(put) | url %url| content %content| timeout(ms) %time"
     export function httpPut(url: string, content: string, time: number): string {
