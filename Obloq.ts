@@ -115,9 +115,9 @@ namespace DFRobotWiFiIoTI2C {
     let G_city = 0;
 
     export enum SERVERS {
-        //% blockId=SERVERS_China block="EasyIOT_CN"
+        //% blockId=SERVERS_China block="EasyIoT_CN"
         China,
-        //% blockId=SERVERS_English block="EasyIOT_EN"
+        //% blockId=SERVERS_English block="EasyIoT_EN"
         English,
         //% block="SIOT"
         SIOT
@@ -228,7 +228,7 @@ namespace DFRobotWiFiIoTI2C {
 
     //% weight=90
     //% blockExternalInputs=1
-    //% blockId=WiFi_IoT_I2C_MQTT block="MQTT configure|IOT_ID(user):%IOT_ID|IOT_PWD(password):%IOT_PWD|Topic(default topic_0):%IOT_TOPIC|server:%SERVERS||IP:%IP"
+    //% blockId=WiFi_IoT_I2C_MQTT block="MQTT configure|IoT_ID(user):%IOT_ID|IoT_PWD(password):%IOT_PWD|Topic(default topic_0):%IOT_TOPIC|server:%SERVERS||IP:%IP"
     export function mqttSetup(
         IOT_ID: string, IOT_PWD: string,
         IOT_TOPIC: string,servers: SERVERS, IP?: string):
@@ -358,7 +358,7 @@ namespace DFRobotWiFiIoTI2C {
         microIoT_WEBHOOKS_EVENT = EVENT
         microIoT_WEBHOOKS_KEY = KEY
     }
-     /**Beebotte Configure 
+    /**Beebotte Configure 
      * @param token ,eg: "Your Channel Token"
      */
     //%weight=30
