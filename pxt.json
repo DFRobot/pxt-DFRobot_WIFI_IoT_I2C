@@ -9,13 +9,21 @@
     "files": [
         "README.md",
         "Obloq.ts",
-		"i2c.cpp",
-        "_locales/zh-cn/DFRobot_WIFI_I0T_I2C-strings.json"
+        "i2c.cpp",
+        "shims.d.ts",
+        "enums.d.ts",
+        "_locales/zh-cn/DFRobot_WIFI_I0T_I2C-strings.json",
+        "shims.d.ts",
+        "enums.d.ts"
     ],
     "testFiles": [
         "test.ts"
     ],
     "public": true,
+    "targetVersions": {
+        "target": "3.1.46",
+        "targetId": "microbit"
+    },
     "supportedTargets": [
         "microbit"
     ],
