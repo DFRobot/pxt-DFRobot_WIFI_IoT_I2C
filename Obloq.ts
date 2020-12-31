@@ -15,7 +15,7 @@
 /**
  *Obloq implementation method.
  */
-//% weight=10 color=#e7660b icon="\uf1eb" block="DFRobot WIFI I0T I2C"
+//% weight=10 color=#e7660b icon="\uf1eb" block="DFRobotWiFiIoTModuleI2C"
 namespace DFRobotWiFiIoTI2C {
     
     const OBLOQ_MQTT_EASY_IOT_SERVER_CHINA = "iot.dfrobot.com.cn"
