@@ -5,7 +5,7 @@
 
 //% color=50 weight=80
 //% icon="\uf1eb"
-namespace i2c { 
+namespace i2c_1 { 
 
 //%
  void init(){

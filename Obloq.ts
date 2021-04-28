@@ -204,7 +204,7 @@ namespace DFRobotWiFiIoTI2C {
      * Read IR sensor value V2.
      */
 
-    //% advanced=true shim=i2c::init
+    //% advanced=true shim=i2c_1::init
     function init(): void {
         return;
     }
