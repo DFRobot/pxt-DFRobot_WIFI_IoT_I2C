@@ -483,32 +483,32 @@ namespace DFRobotWiFiIoTI2C {
      * @param PORT to PORT ,eg: 80
     */
 	
-    // weight=28
-    // receive.fieldEditor="gridpicker" receive.fieldOptions.columns=3
-    // send.fieldEditor="gridpicker" send.fieldOptions.columns=3
-    // blockId=WiFi_IoT_UART_http_setup
-    // block="configure http ip: %IP port: %PORT  start connection"
-    /*
+    //% weight=28
+    //% receive.fieldEditor="gridpicker" receive.fieldOptions.columns=3
+    //% send.fieldEditor="gridpicker" send.fieldOptions.columns=3
+    //% blockId=WiFi_IoT_UART_http_setup
+    //% block="configure http ip: %IP port: %PORT  start connection"
+    
     export function httpSetup(IP: string, PORT: number):void {
         microIoT_setPara(SETHTTP_IP, IP)
         microIoT_setPara(SETHTTP_PORT, PORT.toString())
         //microIoT_runCommand(CONNECT_WIFI)
         //microIoT_CheckStatus("WiFiConnected");
         //Wifi_Status = WIFI_CONNECTED
-    }*/
+    }
     /**
      * The HTTP get request.url(string):URL:time(ms): private long maxWait
      * @param time set timeout, eg: 10000
     */
 	
-    // weight=27
-    // blockId=WiFi_IoT_I2C_http_get
-    // block="http(get) | url %url| timeout(ms) %time"
-    /*
+    //% weight=27
+    //% blockId=WiFi_IoT_I2C_http_get
+    //% block="http(get) | url %url| timeout(ms) %time"
+    
     export function httpGet(url: string, time: number): string {
         microIoT_ParaRunCommand(GET_URL, url)
         return "a"//microIoT_http_wait_request(time);
-    }*/
+    }
 
 
     /**
@@ -516,16 +516,16 @@ namespace DFRobotWiFiIoTI2C {
      * time(ms): private long maxWait
      * @param time set timeout, eg: 10000
     */
-    // weight=26
-    // blockId=WiFi_IoT_I2C_http_post
-    // block="http(post) | url %url| content %content| timeout(ms) %time"
-    /*
+    //% weight=26
+    //% blockId=WiFi_IoT_I2C_http_post
+    //% block="http(post) | url %url| content %content| timeout(ms) %time"
+    
     export function httpPost(url: string, content: string, time: number): string {
         let tempStr = ""
         tempStr = url + "," + content;
         microIoT_ParaRunCommand(POST_URL, tempStr)
         return microIoT_http_wait_request(time);
-    }*/
+    }
 
      /**
      * The HTTP put request,Obloq.put() can only be used for http protocol!
@@ -533,16 +533,16 @@ namespace DFRobotWiFiIoTI2C {
      * @param time set timeout, eg: 10000
     */
 	
-    //weight=25
-    // blockId=WiFi_IoT_I2C_http_put
-    // block="http(put) | url %url| content %content| timeout(ms) %time"
-    /*
+    //%weight=25
+    //% blockId=WiFi_IoT_I2C_http_put
+    //% block="http(put) | url %url| content %content| timeout(ms) %time"
+    
     export function httpPut(url: string, content: string, time: number): string {
         let tempStr = ""
         tempStr = url + "," + content;
         microIoT_ParaRunCommand(PUT_URL, tempStr)
         return microIoT_http_wait_request(time);
-    }*/
+    }
 	
     /**
      * Get the software version.time(ms): private long maxWait
