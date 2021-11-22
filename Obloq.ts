@@ -221,6 +221,11 @@ namespace DFRobotWiFiIoTI2C {
     //% blockId=WiFi_IoT_I2C_WIFI_Setup block="Wi-Fi configure name: %SSID| password：%PASSWORD start connection"
     export function WIFISetup(SSID: string, PASSWORD: string): void {
         init();
+        let buf = pins.createBuffer(2);
+        buf[0] = 0x02;
+        buf[1] = 0x17;
+        pins.i2cWriteBuffer(0x1E,buf);
+        basic.pause(1000)
         microIoT_setPara(SETWIFI_NAME, SSID)
         microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
         microIoT_runCommand(CONNECT_WIFI)
