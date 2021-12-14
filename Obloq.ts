@@ -221,12 +221,16 @@ namespace DFRobotWiFiIoTI2C {
     //% blockId=WiFi_IoT_I2C_WIFI_Setup block="Wi-Fi configure name: %SSID| password：%PASSWORD start connection"
     export function WIFISetup(SSID: string, PASSWORD: string): void {
         init();
-        let buf = pins.createBuffer(3); 
-        buf[0] = 0x1E;
-        buf[1] = 0x02;
-        buf[2] = 0x17;
-        pins.i2cWriteBuffer(IIC_ADDRESS,buf);
-        basic.pause(1000)
+        let Version = DFRobotWiFiIoTI2C.getVersion();
+        if (Version == "V4.0"){
+            let buf = pins.createBuffer(3);
+            buf[0] = 0x1E;
+            buf[1] = 0x02;
+            buf[2] = 0x17;
+            pins.i2cWriteBuffer(IIC_ADDRESS, buf);
+            basic.pause(2000)
+        }
+        
         microIoT_setPara(SETWIFI_NAME, SSID)
         microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
         microIoT_runCommand(CONNECT_WIFI)
@@ -251,6 +255,7 @@ namespace DFRobotWiFiIoTI2C {
         IOT_ID: string, IOT_PWD: string,
         IOT_TOPIC: string,servers: SERVERS, IP?: string):
         void {
+        
         if (servers == SERVERS.China) {
             microIoT_setPara(SETMQTT_SERVER, OBLOQ_MQTT_EASY_IOT_SERVER_CHINA)
         } else if (servers == SERVERS.English) {
@@ -268,6 +273,7 @@ namespace DFRobotWiFiIoTI2C {
         microIoT_CheckStatus("MQTTConnected");
         serial.writeString("mqtt connected\r\n");
       
+        basic.pause(100);
         Topic_0 = IOT_TOPIC
         microIoT_ParaRunCommand(SUB_TOPIC0, IOT_TOPIC);
         microIoT_CheckStatus("SubTopicOK");
@@ -592,9 +598,8 @@ namespace DFRobotWiFiIoTI2C {
         recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
         tempId = recbuf[0]
         tempStatus = recbuf[1]
-
-        serial.writeNumber(tempId)
-        serial.writeNumber(tempStatus)
+        // serial.writeValue("I：", tempId)
+        // serial.writeValue("S：", tempStatus)
         
         switch (tempId) {
             case READ_PING:
@@ -608,7 +613,7 @@ namespace DFRobotWiFiIoTI2C {
                 if (tempStatus == WIFI_CONNECTING) {
                     microIoTStatus = "WiFiConnecting"
                 } else if (tempStatus == WIFI_CONNECTED) {
-                    microIoTStatus = "WiFiConnected"
+                    //microIoTStatus = "WiFiConnected"
                 } else if (tempStatus == WIFI_DISCONNECT) {
                     microIoTStatus = "WiFiDisconnect"
                 } else {
@@ -634,6 +639,7 @@ namespace DFRobotWiFiIoTI2C {
                 microIoTStatus = "READ_IP"
                 microIoT_GetData(tempStatus)
                 microIoT_IP = RECDATA
+                microIoTStatus = "WiFiConnected"
                 break;
             case SUB_TOPIC0:
                 microIoTStatus = "READ_TOPICDATA"
