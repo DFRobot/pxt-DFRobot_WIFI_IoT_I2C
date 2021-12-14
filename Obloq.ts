@@ -221,10 +221,11 @@ namespace DFRobotWiFiIoTI2C {
     //% blockId=WiFi_IoT_I2C_WIFI_Setup block="Wi-Fi configure name: %SSID| password：%PASSWORD start connection"
     export function WIFISetup(SSID: string, PASSWORD: string): void {
         init();
-        let buf = pins.createBuffer(2);
-        buf[0] = 0x02;
-        buf[1] = 0x17;
-        pins.i2cWriteBuffer(0x1E,buf);
+        let buf = pins.createBuffer(3); 
+        buf[0] = 0x1E;
+        buf[1] = 0x02;
+        buf[2] = 0x17;
+        pins.i2cWriteBuffer(IIC_ADDRESS,buf);
         basic.pause(1000)
         microIoT_setPara(SETWIFI_NAME, SSID)
         microIoT_setPara(SETWIFI_PASSWORLD, PASSWORD)
@@ -591,6 +592,10 @@ namespace DFRobotWiFiIoTI2C {
         recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
         tempId = recbuf[0]
         tempStatus = recbuf[1]
+
+        serial.writeNumber(tempId)
+        serial.writeNumber(tempStatus)
+        
         switch (tempId) {
             case READ_PING:
                 if (tempStatus == PING_OK) {
@@ -633,7 +638,10 @@ namespace DFRobotWiFiIoTI2C {
             case SUB_TOPIC0:
                 microIoTStatus = "READ_TOPICDATA"
                 microIoT_GetData(tempStatus)
+                serial.writeNumber(12)
                 if (Topic0CallBack != null) {
+                    
+                    serial.writeNumber(12)
                     Topic0CallBack();
                 }
                 break;
@@ -678,6 +686,7 @@ namespace DFRobotWiFiIoTI2C {
         }
         basic.pause(200);
     }
+    
     basic.forever(function () {
         microIoT_InquireStatus();
     })
