@@ -73,6 +73,7 @@ namespace DFRobotWiFiIoTI2C {
     let POST_URL = 0x11
     let PUT_URL = 0x12
     let GET_VERSION = 0x13
+    let versionState = 0
 
 
     /*read para value*/
@@ -94,6 +95,7 @@ namespace DFRobotWiFiIoTI2C {
     let MQTT_CONNECTERR = 0x02
     let SUB_TOPIC_OK = 0x01
     let SUB_TOPIC_Ceiling = 0x02
+    let DISCONNECT_MQTT = 0x15
 
 
     let microIoTStatus = ""
@@ -113,6 +115,8 @@ namespace DFRobotWiFiIoTI2C {
     let HTTP_PORT = ""
     let microIoT_IP = "0.0.0.0"
     let G_city = 0;
+    let mqttState = 0;
+    let wifiConnected = 0;
 
     export enum SERVERS {
         //% blockId=SERVERS_China block="EasyIoT_CN"
@@ -191,12 +195,20 @@ namespace DFRobotWiFiIoTI2C {
     }
 
     function microIoT_CheckStatus(cmd: string): void {
+        let startTime = input.runningTime();
+        let currentTime = 0;
         while (true) {
+            currentTime = input.runningTime();
             if (microIoTStatus == cmd) {
                 serial.writeString("OKOK\r\n");
                 return;
             }
             basic.pause(50);
+            if (versionState == 1) {
+                if ((currentTime - startTime) > 20000)
+                    return;
+            }
+
         }
     }
 
@@ -223,6 +235,7 @@ namespace DFRobotWiFiIoTI2C {
         init();
         let Version = DFRobotWiFiIoTI2C.getVersion();
         if (Version == "V4.0"){
+            versionState = 1;
             let buf = pins.createBuffer(3);
             buf[0] = 0x1E;
             buf[1] = 0x02;
@@ -587,6 +600,7 @@ namespace DFRobotWiFiIoTI2C {
     }
 
     function microIoT_InquireStatus(): void {
+
         let buf = pins.createBuffer(3)
         let tempId = 0
         let tempStatus = 0
@@ -598,9 +612,6 @@ namespace DFRobotWiFiIoTI2C {
         recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
         tempId = recbuf[0]
         tempStatus = recbuf[1]
-        // serial.writeValue("I：", tempId)
-        // serial.writeValue("S：", tempStatus)
-        
         switch (tempId) {
             case READ_PING:
                 if (tempStatus == PING_OK) {
@@ -613,17 +624,26 @@ namespace DFRobotWiFiIoTI2C {
                 if (tempStatus == WIFI_CONNECTING) {
                     microIoTStatus = "WiFiConnecting"
                 } else if (tempStatus == WIFI_CONNECTED) {
-                    //microIoTStatus = "WiFiConnected"
+                    microIoTStatus = "WiFiConnected"
                 } else if (tempStatus == WIFI_DISCONNECT) {
                     microIoTStatus = "WiFiDisconnect"
+                    wifiConnected++;
+                    if (wifiConnected == 2) {
+                        wifiConnected = 0;
+                        microIoT_runCommand(WIFI_CONNECTED);
+                    }
                 } else {
-                }
-                break;
+                } break;
             case READ_MQTTSTATUS:
                 if (tempStatus == MQTT_CONNECTED) {
                     microIoTStatus = "MQTTConnected"
+                    mqttState = 1;
                 } else if (tempStatus == MQTT_CONNECTERR) {
                     microIoTStatus = "MQTTConnectERR"
+
+                } else if (tempStatus == 0) {//新版本修复重连
+                    microIoT_runCommand(DISCONNECT_MQTT);
+                    microIoT_runCommand(WIFI_CONNECTED);
                 }
                 break;
             case READ_SUBSTATUS:
@@ -639,15 +659,18 @@ namespace DFRobotWiFiIoTI2C {
                 microIoTStatus = "READ_IP"
                 microIoT_GetData(tempStatus)
                 microIoT_IP = RECDATA
-                microIoTStatus = "WiFiConnected"
+                if (mqttState == 1) {
+                    mqttState = 0;
+                    microIoT_runCommand(DISCONNECT_MQTT);
+                    basic.pause(200)
+                    microIoT_runCommand(CONNECT_MQTT);
+                    //microIoT_CheckStatus("MQTTConnected");
+                }
                 break;
             case SUB_TOPIC0:
                 microIoTStatus = "READ_TOPICDATA"
                 microIoT_GetData(tempStatus)
-                serial.writeNumber(12)
                 if (Topic0CallBack != null) {
-                    
-                    serial.writeNumber(12)
                     Topic0CallBack();
                 }
                 break;
