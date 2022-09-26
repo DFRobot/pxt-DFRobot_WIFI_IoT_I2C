@@ -12,7 +12,7 @@
     "DFRobotWiFiIoTI2C.httpPost|block": "http(post) | url %url| content %content| 超時(毫秒) %time",
     "DFRobotWiFiIoTI2C.httpPut|block": "http(put) | url %url| content %content| 超時(毫秒) %time",
     "DFRobotWiFiIoTI2C.httpSetup|block":"設置 http ip: %IP port: %PORT 開始連接",
-    "DFRobotWiFiIoTI2C.token|block": "BeeBotte 配置密钥: %token",
+    "DFRobotWiFiIoTI2C.token|block": "BeeBotte 設置密碼: %token",
     "DFRobotWiFiIoTI2C.sendmessage|block": "BeeBotte 頻道: %channel 資源: %resource 發送數據 %data",
     "DFRobotWiFiIoTI2C.getVersion|block":"獲取版本號"
 }
