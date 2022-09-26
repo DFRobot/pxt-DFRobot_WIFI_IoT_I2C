@@ -13,6 +13,7 @@
         "shims.d.ts",
         "enums.d.ts",
         "_locales/zh-cn/DFRobot_WIFI_I0T_I2C-strings.json",
+        "_locales/zh-tw/DFRobot_WIFI_I0T_I2C-strings.json",
         "shims.d.ts",
         "enums.d.ts"
     ],
