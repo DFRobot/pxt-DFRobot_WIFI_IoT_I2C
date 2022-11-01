@@ -118,6 +118,10 @@ namespace DFRobotWiFiIoTI2C {
     let mqttState = 0;
     let wifiConnected = 0;
 
+    let SUCCESS = 1;
+    let WIFI_NEWCONNECTED = 0x05//新版本wifi重连
+    let Reconnection = 0;
+
     export enum SERVERS {
         //% blockId=SERVERS_China block="EasyIoT_CN"
         China,
@@ -194,22 +198,21 @@ namespace DFRobotWiFiIoTI2C {
 
     }
 
-    function microIoT_CheckStatus(cmd: string): void {
+    function microIoT_CheckStatus(cmd: string): number {
         let startTime = input.runningTime();
+        let ret = 0;
         let currentTime = 0;
         while (true) {
             currentTime = input.runningTime();
             if (microIoTStatus == cmd) {
-                serial.writeString("OKOK\r\n");
-                return;
+                ret = 1;
+                break;
             }
             basic.pause(50);
-            if (versionState == 1) {
-                if ((currentTime - startTime) > 20000)
-                    return;
-            }
-
+            if ((currentTime - startTime) > 20000)
+                break;
         }
+        return ret;
     }
 
     /**
@@ -583,7 +586,13 @@ namespace DFRobotWiFiIoTI2C {
         buf[1] = RUN_COMMAND;
         buf[2] = GET_VERSION;
         pins.i2cWriteBuffer(IIC_ADDRESS, buf);
-        microIoT_CheckStatus("READ_VERSION");
+        if (microIoT_CheckStatus("READ_VERSION") == 1) {
+            serial.writeString("wifi card version ");
+            serial.writeString(RECDATA);
+            serial.writeString("\r\n");
+        } else {
+            serial.writeString("No wifi card is detected or an old wifi card is used\r\n");
+        }
         return RECDATA
     }
 
@@ -600,7 +609,6 @@ namespace DFRobotWiFiIoTI2C {
     }
 
     function microIoT_InquireStatus(): void {
-
         let buf = pins.createBuffer(3)
         let tempId = 0
         let tempStatus = 0
@@ -612,6 +620,7 @@ namespace DFRobotWiFiIoTI2C {
         recbuf = pins.i2cReadBuffer(IIC_ADDRESS, 2, false)
         tempId = recbuf[0]
         tempStatus = recbuf[1]
+
         switch (tempId) {
             case READ_PING:
                 if (tempStatus == PING_OK) {
@@ -632,7 +641,9 @@ namespace DFRobotWiFiIoTI2C {
                         wifiConnected = 0;
                         microIoT_runCommand(WIFI_CONNECTED);
                     }
-                } else {
+                } else if (tempStatus == WIFI_NEWCONNECTED) {//当wifi卡断网后实现WiFi重连
+                    microIoT_runCommand(WIFI_CONNECTED);
+                    serial.writeLine("wifi request reconnection")
                 } break;
             case READ_MQTTSTATUS:
                 if (tempStatus == MQTT_CONNECTED) {
@@ -641,9 +652,6 @@ namespace DFRobotWiFiIoTI2C {
                 } else if (tempStatus == MQTT_CONNECTERR) {
                     microIoTStatus = "MQTTConnectERR"
 
-                } else if (tempStatus == 0) {//新版本修复重连
-                    microIoT_runCommand(DISCONNECT_MQTT);
-                    microIoT_runCommand(WIFI_CONNECTED);
                 }
                 break;
             case READ_SUBSTATUS:
@@ -659,12 +667,12 @@ namespace DFRobotWiFiIoTI2C {
                 microIoTStatus = "READ_IP"
                 microIoT_GetData(tempStatus)
                 microIoT_IP = RECDATA
-                if (mqttState == 1) {
+                if (mqttState == 1) {//之前连接过mqtt断开连接后重连实现mqtt并订阅topic
+                    serial.writeString("wifi reconnection ok\r\n");
                     mqttState = 0;
+                    Reconnection = 1;
                     microIoT_runCommand(DISCONNECT_MQTT);
-                    basic.pause(200)
-                    microIoT_runCommand(CONNECT_MQTT);
-                    //microIoT_CheckStatus("MQTTConnected");
+                    basic.pause(100);
                 }
                 break;
             case SUB_TOPIC0:
@@ -715,9 +723,64 @@ namespace DFRobotWiFiIoTI2C {
         }
         basic.pause(200);
     }
-    
+
     basic.forever(function () {
         microIoT_InquireStatus();
     })
+    basic.forever(function () {
+        MQTTReconnection();
+    })
+    function MQTTReconnection(): void {
+        if (Reconnection == 1) {
+            Reconnection = 0;
+            microIoT_runCommand(CONNECT_MQTT);
+            if (microIoT_CheckStatus("MQTTConnected") == SUCCESS) {
+                serial.writeString("mqtt reconnection\r\n");
+            } else {
+                serial.writeString("mqtt reconnection timeout\r\n");
+            }
+            if (Topic_0.length != 0) {
+                microIoT_ParaRunCommand(SUB_TOPIC0, Topic_0);
+                if (microIoT_CheckStatus("SubTopicOK") == SUCCESS) {
+                    serial.writeString("sub topic_0 ok\r\n");
+                } else {
+                    serial.writeString("sub topic_0 timeout\r\n");
+                }
+            }
+            if (Topic_1.length != 0) {
+                microIoT_ParaRunCommand(SUB_TOPIC1, Topic_1);
+                if (microIoT_CheckStatus("SubTopicOK") == SUCCESS) {
+                    serial.writeString("sub topic_1 ok\r\n");
+                } else {
+                    serial.writeString("sub topic_1 timeout\r\n");
+                }
+            }
+            if (Topic_2.length != 0) {
+                microIoT_ParaRunCommand(SUB_TOPIC2, Topic_2);
+                if (microIoT_CheckStatus("SubTopicOK") == SUCCESS) {
+                    serial.writeString("sub topic_2 ok\r\n");
+                } else {
+                    serial.writeString("sub topic_2 timeout\r\n");
+                }
+            }
+            if (Topic_3.length != 0) {
+                microIoT_ParaRunCommand(SUB_TOPIC3, Topic_3);
+                if (microIoT_CheckStatus("SubTopicOK") == SUCCESS) {
+                    serial.writeString("sub topic_3 ok\r\n");
+                } else {
+                    serial.writeString("sub topic_3 timeout\r\n");
+                }
+            }
+            if (Topic_4.length != 0) {
+                microIoT_ParaRunCommand(SUB_TOPIC4, Topic_4);
+                if (microIoT_CheckStatus("SubTopicOK") == SUCCESS) {
+                    serial.writeString("sub topic_4 ok\r\n");
+                } else {
+                    serial.writeString("sub topic_4 timeout\r\n");
+                }
+            }
+        }
+    }
+
 
 }
